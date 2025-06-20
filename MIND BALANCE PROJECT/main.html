@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Balance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #e6e9ff);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        header {
+            background: #4a90e2;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        h2 {
+            font-size: 2em;
+            margin-top: 30px;
+            color: #3e4b89;
+        }
+        .welcome {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #555;
+        }
+        .button {
+            background-color: #4a90e2;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1em;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .button:hover {
+            background-color: #3b54cc;
+            transform: scale(1.05);
+        }
+        .testimonial {
+            font-style: italic;
+            color: #4a90e2;
+            text-align: center;
+        }
+        .testimonial-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f9f9f9;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    
+    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2024/10/27/04/20241027045307-RE3X7WBN.js"></script>
+    
+    <header>
+        <h1>Welcome to Mind Balance</h1>
+        <p class="welcome">Welcome back, <span id="username">[User's Name]</span>! We’re glad to see you again. Let’s continue your journey to mental well-being.</p>
+    </header>
+
+    <h2>Mission Statement</h2>
+    <div class="card">
+        <p>Our mission is to provide accessible tools and resources to empower individuals on their mental health journey.</p>
+    </div>
+
+    <h2>Featured Sections</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Mental Health Goals</h3>
+            <p>Set achievable goals to enhance your mental well-being. Track your progress and celebrate your milestones.</p>
+        </div>
+        <div class="card">
+            <h3>AI Chatbot</h3>
+            <p>Need immediate support? Our AI chatbot is here to listen and guide you through your concerns.</p>
+        </div>
+    </div>
+
+    <h2>Resource Highlights</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Articles & Videos</h3>
+            <p>Explore our latest resources on managing anxiety, mindfulness techniques, and self-care strategies.</p>
+        </div>
+        <div class="card">
+            <h3>Recommended Practices</h3>
+            <p>Try our guided meditations to find calm in your day.</p>
+        </div>
+    </div>
+
+    <h2>User Testimonials</h2>
+    <div class="grid">
+        <div class="testimonial-card">
+            <p>“Mind Balance helped me find clarity in my thoughts and a community of support.” - Sarah</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“This platform has changed my life. I feel more in control of my mental health.” - John</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“The resources available are invaluable. I recommend it to everyone!” - Emily</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“Mind Balance has truly been a sanctuary for me.” - Michael</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“I love the community support and the resources offered!” - Jennifer</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“The AI chatbot is a great feature; it really listens!” - Alex</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“Thanks to Mind Balance, I’ve learned so much about myself.” - Rachel</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“The content here is top-notch. It really helps!” - Tom</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“Every article I've read has been insightful.” - Laura</p>
+        </div>
+        <div class="testimonial-card">
+            <p>“I appreciate the diverse range of resources available.” - Chris</p>
+        </div>
+    </div>
+
+    <h2>Interactive Tools</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Self-Assessment Quiz</h3>
+            <p>Take our quick self-assessment to understand your mental health better.</p>
+            <button class="button">Start Quiz</button>
+        </div>
+        <div class="card">
+            <h3>Mood Tracker</h3>
+            <p>Track your emotions daily to identify patterns and triggers.</p>
+            <button class="button">Start Tracking</button>
+        </div>
+    </div>
+
+    <h2>Upcoming Events</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Webinar: Stress Management Techniques</h3>
+            <p>Date: [insert date]. Register now!</p>
+            <button class="button">Register</button>
+        </div>
+        <div class="card">
+            <h3>Workshop: Mindfulness in Daily Life</h3>
+            <p>Date: [insert date]. Join us!</p>
+            <button class="button">Join Now</button>
+        </div>
+        <div class="card">
+            <h3>Support Group: Finding Balance</h3>
+            <p>Date: [insert date]. Sign up for support!</p>
+            <button class="button">Sign Up</button>
+        </div>
+    </div>
+
+    <h2>Suggested Activities</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Guided Meditation</h3>
+            <p>Explore our guided meditation resources to find inner peace.</p>
+        </div>
+        <div class="card">
+            <h3>Journaling Prompts</h3>
+            <p>Use our journaling prompts to reflect and grow.</p>
+        </div>
+        <div class="card">
+            <h3>Mindfulness Walks</h3>
+            <p>Engage in mindfulness walks to reconnect with nature.</p>
+        </div>
+        <div class="card">
+            <h3>Breathwork Exercises</h3>
+            <p>Practice breathwork techniques to manage anxiety.</p>
+        </div>
+        <div class="card">
+            <h3>Art Therapy</h3>
+            <p>Explore your creativity as a form of self-expression.</p>
+        </div>
+        <div class="card">
+            <h3>Yoga Sessions</h3>
+            <p>Join our yoga sessions to enhance your physical and mental well-being.</p>
+        </div>
+        <div class="card">
+            <h3>Nutrition for Mental Health</h3>
+            <p>Discover how nutrition affects your mental well-being.</p>
+        </div>
+        <div class="card">
+            <h3>Community Challenges</h3>
+            <p>Participate in community challenges to foster connections.</p>
+        </div>
+        <div class="card">
+            <h3>Book Club</h3>
+            <p>Join our book club focusing on mental health topics.</p>
+        </div>
+        <div class="card">
+            <h3>Digital Detox</h3>
+            <p>Engage in a digital detox to enhance your mental clarity.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Mind Balance. All rights reserved.</p>
+    </footer>
+</body>
+</html>

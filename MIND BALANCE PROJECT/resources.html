@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Balance - Explore Resources</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .header {
+            background: #673ab7;
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            font-size: 1.8em;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px;
+        }
+        .header a:hover {
+            background-color: #7e57c2;
+        }
+        .container {
+            margin-top: 70px;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 1000px;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #673ab7;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .search-bar {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .search-bar input {
+            width: 100%;
+            max-width: 700px;
+            padding: 15px;
+            border-radius: 25px;
+            border: 2px solid #673ab7;
+            background-color: #f3e5f5;
+            color: #333;
+            font-size: 1.2em;
+            transition: background-color 0.3s, border-color 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .search-bar input:focus {
+            background-color: #e1bee7;
+            border-color: #7e57c2;
+            outline: none;
+        }
+        .resource-category {
+            margin-bottom: 30px;
+        }
+        .resource-category h2 {
+            font-size: 2em;
+            color: #673ab7;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            text-align: center;
+            border-bottom: 3px solid #673ab7;
+        }
+        .resource-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .resource-list li {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .resource-list li:hover {
+            transform: scale(1.02);
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .resource-list a {
+            color: #673ab7;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s;
+        }
+        .resource-list a:hover {
+            color: #7e57c2;
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #673ab7;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html">Home</a>
+        <a href="goals.html">Goals</a>
+        <a href="resources.html">Resources</a>
+        <a href="logout.html">Logout</a>
+    </div>
+    <div class="container">
+        <h1>Explore Resources</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search resources..." onkeyup="filterResources()">
+        </div>
+
+        <div class="resource-category">
+            <h2>Articles</h2>
+            <ul class="resource-list" id="articlesList">
+                <li><a href="article1.html">Understanding Mindfulness</a></li>
+                <li><a href="article2.html">The Benefits of Meditation</a></li>
+                <li><a href="article3.html">How to Reduce Stress Effectively</a></li>
+                <li><a href="article4.html">Mindfulness for Beginners</a></li>
+                <li><a href="article5.html">Advanced Meditation Techniques</a></li>
+                <li><a href="article6.html">Building Resilience through Meditation</a></li>
+                <li><a href="article7.html">The Science Behind Mindfulness</a></li>
+                <li><a href="article8.html">Coping Strategies for Anxiety</a></li>
+                <li><a href="article9.html">How to Create a Meditation Space</a></li>
+                <li><a href="article10.html">The Role of Nutrition in Mental Health</a></li>
+            </ul>
+        </div>
+
+        <div class="resource-category">
+            <h2>Videos</h2>
+            <ul class="resource-list" id="videosList">
+                <li><a href="video1.html">Introduction to Mindfulness</a></li>
+                <li><a href="video2.html">Guided Meditation for Beginners</a></li>
+                <li><a href="video3.html">Managing Stress with Yoga</a></li>
+                <li><a href="video4.html">Deep Breathing Techniques</a></li>
+                <li><a href="video5.html">Mindfulness Exercises for Daily Life</a></li>
+                <li><a href="video6.html">Understanding Stress and Anxiety</a></li>
+                <li><a href="video7.html">Yoga for Relaxation</a></li>
+                <li><a href="video8.html">Meditation for Focus</a></li>
+                <li><a href="video9.html">Visualization Techniques for Calm</a></li>
+                <li><a href="video10.html">Restorative Yoga Practices</a></li>
+            </ul>
+        </div>
+
+        <div class="resource-category">
+            <h2>Podcasts</h2>
+            <ul class="resource-list" id="podcastsList">
+                <li><a href="podcast1.html">Mindfulness Techniques</a></li>
+                <li><a href="podcast2.html">The Science of Meditation</a></li>
+                <li><a href="podcast3.html">Stress Management Strategies</a></li>
+                <li><a href="podcast4.html">Mindful Living Tips</a></li>
+                <li><a href="podcast5.html">Meditation Practices for Sleep</a></li>
+                <li><a href="podcast6.html">Overcoming Anxiety through Mindfulness</a></li>
+                <li><a href="podcast7.html">Integrating Mindfulness into Daily Life</a></li>
+                <li><a href="podcast8.html">Building Emotional Resilience</a></li>
+                <li><a href="podcast9.html">Mindfulness in Relationships</a></li>
+                <li><a href="podcast10.html">Exploring Self-Compassion</a></li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Mind Balance. All rights reserved.</p>
+    </footer>
+    <script>
+        function filterResources() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const resourceLists = document.querySelectorAll('.resource-list');
+
+            resourceLists.forEach(list => {
+                list.querySelectorAll('li').forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(input) ? '' : 'none';
+                });
+            });
+        }
+    </script>
+</body>
+</html>

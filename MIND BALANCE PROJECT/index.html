@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Balance - Welcome</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6FA3EF, #A8E6CF); /* Calm gradient */
+            overflow: hidden;
+            background-image: url('https://www.makemebetter.net/wp-content/uploads/2019/07/61.jpg');
+            background-size: cover;
+            position: relative;
+        }
+
+        /* Overlay to Darken Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4); /* Dark overlay for better readability */
+            z-index: 0;
+        }
+
+        /* Container Styles */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15); /* Semi-transparent glass effect */
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 100%;
+            backdrop-filter: blur(15px); /* Frosted glass */
+            z-index: 1;
+            animation: zoomIn 1s ease-out;
+        }
+
+        /* Container Animation */
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Header Styles */
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #F8F9FA;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Header Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Paragraph Styles */
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #F8F9FA;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.5s;
+        }
+
+        /* Button Styles */
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: #fff;
+            background: linear-gradient(45deg, #6FA3EF, #A8E6CF); /* Calm gradient */
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Button Hover Effect */
+        .button:hover {
+            background: linear-gradient(45deg, #5C92DA, #9EDABF);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Button Pseudo Element for Ripple Effect */
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 0;
+        }
+
+        .button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Mind Balance</h1>
+        <p>Your journey to mental wellness begins here. Explore resources, connect with experts, and find tools to help you achieve balance and peace of mind.</p>
+        <a href="get-started.html" class="button">Get Started</a>
+    </div>
+</body>
+</html>

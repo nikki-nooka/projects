@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Balance - Get Started</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: url('https://www.meditationly.com/wp-content/uploads/2017/12/unnamed-3.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 900px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            animation: slideIn 2s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px); /* Add a blur effect to adjust to the background */
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+            z-index: 0;
+        }
+        .container > * {
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #FFD700;
+            animation: fadeIn 2s ease-in-out;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #f0e68c;
+            animation: fadeIn 2s ease-in-out 1s;
+        }
+        .steps {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .step {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid;
+            border-color: #FF6347; /* Default border color for visual distinction */
+        }
+        .step:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        .step img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+            transition: transform 0.3s;
+        }
+        .step:hover img {
+            transform: scale(1.1);
+        }
+        .step:nth-child(1) {
+            border-color: #FF6347;
+        }
+        .step:nth-child(2) {
+            border-color: #FFD700;
+        }
+        .step:nth-child(3) {
+            border-color: #32CD32;
+        }
+        .step:nth-child(4) {
+            border-color: #1E90FF;
+        }
+        .step h2 {
+            color: #fff;
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
+        .step p {
+            font-size: 1.1em;
+            line-height: 1.4;
+            color: #f0e68c;
+        }
+        .step .action-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #FF6347;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .step .action-button:hover {
+            background-color: #eca445;
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2024/10/27/04/20241027045307-RE3X7WBN.js"></script>
+    
+    <div class="container">
+        <h1>Get Started with Mind Balance</h1>
+        <p>Follow these simple steps to begin your journey:</p>
+        <div class="steps">
+            <div class="step">
+                <img src="https://p4.wallpaperbetter.com/wallpaper/463/980/882/fall-nature-leaves-park-wallpaper-preview.jpg" alt="Sign Up">
+                <div>
+                    <h2>Step 1: Sign Up</h2>
+                    <p>Create an account to access personalized resources and track your progress.</p>
+                    <a href="signup.html" class="action-button">Sign Up Now</a>
+                </div>
+            </div>
+            <div class="step">
+                <img src="https://e0.pxfuel.com/wallpapers/418/102/desktop-wallpaper-autumn-atmosphere-fall-atmosphere-colors-sunrise-lake-mist-trees-autumn-nature-water-sunset.jpg" alt="Set Goals">
+                <div>
+                    <h2>Step 2: Set Your Goals</h2>
+                    <p>Define your mental wellness goals and we'll help you achieve them.</p>
+                    <a href="goals.html" class="action-button">Set Goals</a>
+                </div>
+            </div>
+            <div class="step">
+                <img src="https://wallpapercave.com/wp/wp7708185.jpg" alt="Explore Resources">
+                <div>
+                    <h2>Step 3: Explore Resources</h2>
+                    <p>Discover articles, videos, and tools tailored to your needs.</p>
+                    <a href="resources.html" class="action-button">Explore Now</a>
+                </div>
+            </div>
+            <div class="step">
+                <img src="https://tse4.mm.bing.net/th?id=OIP.gBKCREsFPqk1eHrD5yGtXgHaEJ&pid=Api&P=0&h=180" alt="Connect with Experts">
+                <div>
+                    <h2>Step 4: Connect with Experts</h2>
+                    <p>Get guidance from mental health professionals whenever you need it.</p>
+                    <a href="experts.html" class="action-button">Connect Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
