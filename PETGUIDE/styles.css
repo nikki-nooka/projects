@@ -1,0 +1,54 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color:rgb(255, 255, 255);
+
+}
+
+header {
+  background-color:rgb(253, 210, 153);
+  color: #fff;
+  text-align:center;
+  padding: 25px;
+}
+
+h1 {
+  margin: 0;
+  color: black;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+
+}
+
+#searchInput {
+  padding: 10px;
+  width: 150px;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  
+}
+
+main {
+  padding: 20px;
+}
+section {
+  display: flex;
+  flex-wrap:wrap;
+  border-style: dotted;
+}
+
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+  width: 300px;
+  text-align: center;
+  
+}
+
+.card img {
+  max-width: 100%;
+  border-radius: 8px;
+}

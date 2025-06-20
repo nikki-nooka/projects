@@ -1,0 +1,153 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: poppins;
+  }
+header{
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  height:70px;
+  background-color:rgb(255, 229, 36);
+}
+ul{
+  list-style:armenian;
+}
+li{
+  display: inline-block;
+  margin-right:  15px;
+  font-family:'Times New Roman', Times, serif;
+  font-size: 22px;
+  color:rgb(0, 0, 0);
+}
+a{
+  text-decoration: none;
+  color:black;
+}
+.logo{
+  color:black;
+  text-decoration: none;
+  font-size: 35px;
+  font-weight:600;
+  padding-top: 14px;
+  padding-left: 14px;
+}
+.header-icons{
+  display: flex;
+  align-items: center;
+}
+a:hover{
+  color:rgb(255, 255, 255);
+  cursor: pointer;
+  background-color: rgb(229, 232, 81);
+  border-radius: 3px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  transition:all 0.3s ease;
+  border-radius: 10px;
+}
+.signin:hover{
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  border-radius: 30px;
+  background-color: rgb(8, 255, 20);
+  border-radius: 15px;
+}
+.signin{
+  background: rbg(0,252,255);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition:all 0.3s ease;
+  color:white;
+  background-image: linear-gradient(180deg, rgb(199, 246, 167),rgb(77, 229, 229));
+  font-family: 'Times New Roman', Times, serif;
+}
+p{
+  color:rgb(255, 213, 0);
+  font-size: 45px;
+  font-weight: 900;
+  font-family: 'Times New Roman', Times, serif;
+}
+main{
+  display: block;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  width:100%;
+  padding:0 20px;
+  text-align:center;
+}
+.logoquotes{
+  color:rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: 40px;
+  font-weight: 1000;
+  margin-top:20px;
+}
+.x{
+  color:rgb(0, 0, 0);
+  font-size: 55px;
+  font-family:sans-serif;
+}
+.learn{
+  height:555spx;
+  width: 17px;
+  border-radius:none;
+  margin: 0 10px;
+  border:2px solid black;
+  font-size:20px;
+  font-weight: 500;
+  padding: 0 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s;
+  background: none;
+  margin-top: 20px;
+  transition:all 0.3s ease;
+}
+.signup{
+  height:55px;
+  width:170px;
+  border-radius:none;
+  margin: 0 10px;
+  border:2px solid black;
+  font-size:20px;
+  font-weight: 500;
+  padding: 0 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s;
+  background: none;
+  margin-top: 20px;
+  transition:all 0.3s ease;
+  background-image: linear-gradient(to bottom right,rgb(17, 255, 0), rgb(0, 255, 234))
+}
+.signup:hover{
+  background: rgb(0, 0, 0);
+  border:none;
+  border-radius:29px;
+  color:white;
+}  
+.learn:hover{
+  background: rgb(0, 0, 0);
+  border:none;
+  border-radius:29px;
+  color:white;
+} 
+body{
+  background-image:url("https://wpcdn.us-east-1.vip.tn-cloud.net/www.orlandomagazine.com/content/uploads/data-import/de6a7d72/Pets_Landing_01.jpg");
+  background-repeat: no-repeat;
+  background-position:350px 150px;
+  background-color:url("https://www.pngitem.com/pimgs/m/16-164482_green-bubbles-png-transparent-image-green-bubbles-no.png");
+  backface-visibility: hidden;
+}
+.txt{
+  padding-right: 10px;
+  padding-left: 10px;
+}

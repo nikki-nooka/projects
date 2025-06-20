@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      background-image: url("https://toppng.com/uploads/preview/no-transparent-png-11553948956p3qwmcbeyt.png");
+      background-position: 20px 10px 100px;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      background-image: url("https://www.pngitem.com/pimgs/m/16-164482_green-bubbles-png-transparent-image-green-bubbles-no.png");
+      background-color: rgb(216, 216, 245);
+      border-radius: 50px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .button {
+      background-color: #4caf86;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      padding:10px 20px;
+      text-align:right;
+    }
+  </style>
+  <script>
+    function validateLogin() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      // Basic client-side validation
+      if (email === "user@gmail.com" && password === "password") {
+        alert("Login successful!");
+        // Redirect to another page (replace 'target.html' with your actual target page)
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid email or password. Please try again.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form onsubmit="event.preventDefault(); validateLogin();">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit" class="button">Login</button>
+    </form>
+  </div>
+</body>
+</html>
