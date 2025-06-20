@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRU - Course Registration</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --mru-primary: #003366;
+            --mru-secondary: #FF6600;
+            --mru-light: #F5F5F5;
+            --mru-dark: #212529;
+            --mru-success: #28a745;
+            --mru-danger: #dc3545;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--mru-primary), var(--mru-dark));
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            border: none;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--mru-primary);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .btn-mru {
+            background-color: var(--mru-secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-mru:hover {
+            background-color: #e55c00;
+            color: white;
+        }
+        
+        .course-item {
+            border-left: 4px solid var(--mru-secondary);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .course-item:hover {
+            background-color: var(--mru-light);
+        }
+        
+        .selected-course {
+            background-color: rgba(0, 123, 255, 0.1);
+            border-left: 4px solid var(--mru-primary);
+        }
+        
+        .credit-badge {
+            background-color: var(--mru-primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .footer {
+            background-color: var(--mru-dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .progress-bar {
+            background-color: var(--mru-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-center">
+                <img src="https://mycareersview.com/afile/mcv24193_unnamed.jpg" alt="MRU Logo" class="logo">
+                <div>
+                    <h1 class="mb-1">Malla Reddy University</h1>
+                    <p class="mb-0">Course Registration Portal</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <!-- Student Info Card -->
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Student Information
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <img src="https://i.pinimg.com/236x/c1/1f/c5/c11fc5356b969a207b906cc2294a21fc.jpg" alt="Student" class="rounded-circle" width="120" height="120">
+                        </div>
+                        <h5 class="text-center" id="studentName">John Doe</h5>
+                        <p class="text-center text-muted" id="studentId">MRU20230001</p>
+                        
+                        <hr>
+                        
+                        <div class="mb-2"><strong>Program:</strong> <span id="studentProgram">B.Tech Computer Science</span></div>
+                        <div class="mb-2"><strong>Semester:</strong> <span id="studentSemester">3</span></div>
+                        <div class="mb-2"><strong>Department:</strong> <span id="studentDept">Computer Science</span></div>
+                        <div class="mb-2"><strong>Email:</strong> <span id="studentEmail">john.doe@mru.edu.in</span></div>
+                        
+                        <hr>
+                        
+                        <div class="progress mb-2">
+                            <div class="progress-bar" role="progressbar" style="width: 0%" id="creditProgress"></div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <small>Credits Registered: <span id="currentCredits">0</span></small>
+                            <small>Max Credits: <span id="maxCredits">24</span></small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Selected Courses Card -->
+                <div class="card">
+                    <div class="card-header">
+                        Selected Courses
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group" id="selectedCoursesList">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                No courses selected
+                                <span class="badge bg-primary rounded-pill">0</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-mru" id="registerBtn" disabled>
+                                <i class="fas fa-paper-plane me-1"></i> Register Courses
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Available Courses -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Available Courses</span>
+                        <div class="input-group" style="width: 250px;">
+                            <input type="text" class="form-control" placeholder="Search courses..." id="courseSearch">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Semester Selection -->
+                        <div class="mb-4">
+                            <label for="semesterSelect" class="form-label">Select Semester:</label>
+                            <select class="form-select" id="semesterSelect">
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3" selected>Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Course Categories -->
+                        <ul class="nav nav-tabs mb-4" id="courseTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="core-tab" data-bs-toggle="tab" data-bs-target="#core" type="button" role="tab">Core Courses</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="elective-tab" data-bs-toggle="tab" data-bs-target="#elective" type="button" role="tab">Electives</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="lab-tab" data-bs-toggle="tab" data-bs-target="#lab" type="button" role="tab">Labs</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content" id="courseTabContent">
+                            <!-- Core Courses Tab -->
+                            <div class="tab-pane fade show active" id="core" role="tabpanel">
+                                <div class="list-group" id="coreCourses">
+                                    <!-- Core courses will be loaded here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Electives Tab -->
+                            <div class="tab-pane fade" id="elective" role="tabpanel">
+                                <div class="list-group" id="electiveCourses">
+                                    <!-- Elective courses will be loaded here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Labs Tab -->
+                            <div class="tab-pane fade" id="lab" role="tabpanel">
+                                <div class="list-group" id="labCourses">
+                                    <!-- Lab courses will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Malla Reddy University</h5>
+                    <p>Maisammaguda, Dhulapally, Secunderabad, Telangana 500100</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Academic Calendar</a></li>
+                        <li><a href="#" class="text-white">Course Catalog</a></li>
+                        <li><a href="#" class="text-white">Student Portal</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p><i class="fas fa-phone me-2"></i> +91 40 1234 5678</p>
+                    <p><i class="fas fa-envelope me-2"></i> registrar@mru.edu.in</p>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 Malla Reddy University. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Registration Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">Registration Successful</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle fa-5x text-success"></i>
+                    </div>
+                    <h4 class="mb-3">Course Registration Complete!</h4>
+                    <p>Your selected courses have been successfully registered.</p>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle me-2"></i> You can view your schedule in the student portal.
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success">Go to Student Portal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample course data
+            const courses = {
+                core: [
+                    { code: "CS301", title: "Data Structures and Algorithms", credits: 4, faculty: "Dr. Ramesh Kumar", schedule: "Mon/Wed 10:00-11:30", seats: 45 },
+                    { code: "CS302", title: "Database Management Systems", credits: 4, faculty: "Dr. Priya Sharma", schedule: "Tue/Thu 09:00-10:30", seats: 40 },
+                    { code: "CS303", title: "Computer Networks", credits: 3, faculty: "Prof. Anil Patel", schedule: "Mon/Wed 14:00-15:30", seats: 35 },
+                    { code: "CS304", title: "Operating Systems", credits: 4, faculty: "Dr. Sunita Verma", schedule: "Tue/Thu 11:00-12:30", seats: 38 }
+                ],
+                elective: [
+                    { code: "CS351", title: "Artificial Intelligence", credits: 3, faculty: "Dr. Rajesh Khanna", schedule: "Mon/Wed 16:00-17:30", seats: 30 },
+                    { code: "CS352", title: "Machine Learning", credits: 3, faculty: "Dr. Neha Gupta", schedule: "Tue/Thu 14:00-15:30", seats: 30 },
+                    { code: "CS353", title: "Cloud Computing", credits: 3, faculty: "Prof. Sanjay Singh", schedule: "Fri 10:00-13:00", seats: 25 },
+                    { code: "CS354", title: "Cyber Security", credits: 3, faculty: "Dr. Amit Joshi", schedule: "Mon/Wed 11:00-12:30", seats: 28 }
+                ],
+                lab: [
+                    { code: "CS361", title: "Data Structures Lab", credits: 2, faculty: "Prof. Ravi Shankar", schedule: "Tue 14:00-17:00", seats: 20 },
+                    { code: "CS362", title: "DBMS Lab", credits: 2, faculty: "Prof. Meena Iyer", schedule: "Thu 14:00-17:00", seats: 20 },
+                    { code: "CS363", title: "Networking Lab", credits: 2, faculty: "Prof. Arun Kumar", schedule: "Wed 14:00-17:00", seats: 18 },
+                    { code: "CS364", title: "OS Lab", credits: 2, faculty: "Prof. Deepa Nair", schedule: "Fri 14:00-17:00", seats: 18 }
+                ]
+            };
+
+            // Student data
+            const student = {
+                name: "John Doe",
+                id: "MRU20230001",
+                program: "B.Tech Computer Science",
+                semester: "3",
+                department: "Computer Science",
+                email: "john.doe@mru.edu.in",
+                maxCredits: 24
+            };
+
+            // Initialize student info
+            document.getElementById('studentName').textContent = student.name;
+            document.getElementById('studentId').textContent = student.id;
+            document.getElementById('studentProgram').textContent = student.program;
+            document.getElementById('studentSemester').textContent = student.semester;
+            document.getElementById('studentDept').textContent = student.department;
+            document.getElementById('studentEmail').textContent = student.email;
+            document.getElementById('maxCredits').textContent = student.maxCredits;
+
+            // Selected courses
+            let selectedCourses = [];
+            let totalCredits = 0;
+
+            // Load courses
+            function loadCourses() {
+                const semester = document.getElementById('semesterSelect').value;
+                
+                // Clear existing courses
+                document.getElementById('coreCourses').innerHTML = '';
+                document.getElementById('electiveCourses').innerHTML = '';
+                document.getElementById('labCourses').innerHTML = '';
+                
+                // Load core courses
+                courses.core.forEach(course => {
+                    addCourseToDOM(course, 'coreCourses');
+                });
+                
+                // Load elective courses
+                courses.elective.forEach(course => {
+                    addCourseToDOM(course, 'electiveCourses');
+                });
+                
+                // Load lab courses
+                courses.lab.forEach(course => {
+                    addCourseToDOM(course, 'labCourses');
+                });
+            }
+
+            // Add course to DOM
+            function addCourseToDOM(course, containerId) {
+                const container = document.getElementById(containerId);
+                const isSelected = selectedCourses.some(c => c.code === course.code);
+                
+                const courseItem = document.createElement('div');
+                courseItem.className = `list-group-item course-item ${isSelected ? 'selected-course' : ''}`;
+                courseItem.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <div>
+                            <h6 class="mb-1">${course.code} - ${course.title}</h6>
+                            <small class="text-muted"><i class="fas fa-chalkboard-teacher me-1"></i> ${course.faculty}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge credit-badge">${course.credits} Credits</span>
+                            <div class="mt-1">
+                                <small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${course.schedule}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <small class="text-muted"><i class="fas fa-users me-1"></i> ${course.seats} seats available</small>
+                        <button class="btn btn-sm ${isSelected ? 'btn-danger' : 'btn-outline-primary'} toggle-course" 
+                                data-code="${course.code}" data-credits="${course.credits}">
+                            ${isSelected ? '<i class="fas fa-minus-circle me-1"></i> Remove' : '<i class="fas fa-plus-circle me-1"></i> Add'}
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(courseItem);
+            }
+
+            // Toggle course selection
+            function toggleCourseSelection(courseCode, credits) {
+                const courseIndex = selectedCourses.findIndex(c => c.code === courseCode);
+                const course = [...courses.core, ...courses.elective, ...courses.lab].find(c => c.code === courseCode);
+                
+                if (courseIndex === -1) {
+                    // Add course
+                    if (totalCredits + parseInt(credits) > student.maxCredits) {
+                        alert(`You cannot exceed the maximum credit limit of ${student.maxCredits} credits.`);
+                        return;
+                    }
+                    
+                    selectedCourses.push(course);
+                    totalCredits += parseInt(credits);
+                } else {
+                    // Remove course
+                    selectedCourses.splice(courseIndex, 1);
+                    totalCredits -= parseInt(credits);
+                }
+                
+                updateSelectedCoursesList();
+                updateCreditProgress();
+                loadCourses(); // Refresh course list to update buttons
+            }
+
+            // Update selected courses list
+            function updateSelectedCoursesList() {
+                const listContainer = document.getElementById('selectedCoursesList');
+                
+                if (selectedCourses.length === 0) {
+                    listContainer.innerHTML = `
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            No courses selected
+                            <span class="badge bg-primary rounded-pill">0</span>
+                        </li>
+                    `;
+                    document.getElementById('registerBtn').disabled = true;
+                    return;
+                }
+                
+                listContainer.innerHTML = '';
+                selectedCourses.forEach(course => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    listItem.innerHTML = `
+                        ${course.code} - ${course.title}
+                        <span class="badge bg-primary rounded-pill">${course.credits}</span>
+                    `;
+                    listContainer.appendChild(listItem);
+                });
+                
+                document.getElementById('registerBtn').disabled = false;
+            }
+
+            // Update credit progress
+            function updateCreditProgress() {
+                document.getElementById('currentCredits').textContent = totalCredits;
+                const progressPercentage = (totalCredits / student.maxCredits) * 100;
+                document.getElementById('creditProgress').style.width = `${progressPercentage}%`;
+                
+                if (totalCredits >= student.maxCredits) {
+                    document.getElementById('creditProgress').classList.add('bg-danger');
+                } else {
+                    document.getElementById('creditProgress').classList.remove('bg-danger');
+                }
+            }
+
+            // Register courses
+            function registerCourses() {
+                // In a real app, this would send data to the server
+                console.log("Registering courses:", selectedCourses);
+                
+                // Show success modal
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                
+                // Reset selections
+                selectedCourses = [];
+                totalCredits = 0;
+                updateSelectedCoursesList();
+                updateCreditProgress();
+                loadCourses();
+            }
+
+            // Event listeners
+            document.getElementById('semesterSelect').addEventListener('change', loadCourses);
+            
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('toggle-course')) {
+                    const courseCode = e.target.getAttribute('data-code');
+                    const credits = e.target.getAttribute('data-credits');
+                    toggleCourseSelection(courseCode, credits);
+                }
+            });
+            
+            document.getElementById('registerBtn').addEventListener('click', registerCourses);
+            
+            // Course search functionality
+            document.getElementById('courseSearch').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const courseItems = document.querySelectorAll('.course-item');
+                
+                courseItems.forEach(item => {
+                    const courseText = item.textContent.toLowerCase();
+                    if (courseText.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+
+            // Initial load
+            loadCourses();
+            updateSelectedCoursesList();
+            updateCreditProgress();
+        });
+    </script>
+</body>
+</html>

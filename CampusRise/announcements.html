@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRU CampusRise | Announcements</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --mru-primary: #3a0ca3;
+            --mru-secondary: #7209b7;
+            --mru-accent: #4361ee;
+            --mru-success: #4cc9f0;
+            --mru-warning: #f8961e;
+            --mru-danger: #f72585;
+            --mru-light: #f8f9fa;
+            --mru-dark: #212529;
+            --mru-text: #2b2d42;
+            --mru-bg: #ffffff;
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-bs-theme="dark"] {
+            --mru-primary: #4895ef;
+            --mru-secondary: #4361ee;
+            --mru-accent: #4cc9f0;
+            --mru-success: #70e000;
+            --mru-warning: #f8961e;
+            --mru-danger: #ff006e;
+            --mru-light: #1a1a1a;
+            --mru-dark: #f8f9fa;
+            --mru-text: #f8f9fa;
+            --mru-bg: #121212;
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            --card-hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--mru-bg);
+            color: var(--mru-text);
+            transition: all 0.3s ease;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, var(--mru-primary), var(--mru-secondary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin: 0 2px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--mru-primary), var(--mru-secondary));
+            color: white;
+            padding: 5rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-weight: 400;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        /* Announcement Cards */
+        .announcement-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: none;
+            box-shadow: var(--card-shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            background-color: var(--mru-bg);
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .announcement-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--mru-primary), var(--mru-secondary));
+            color: white;
+            font-weight: 600;
+            padding: 15px 25px;
+            position: relative;
+            border-bottom: none;
+        }
+
+        .card-header i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--mru-primary);
+        }
+
+        .card-text {
+            line-height: 1.6;
+        }
+
+        .card-footer {
+            background-color: rgba(0, 0, 0, 0.03);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 15px 25px;
+        }
+
+        /* Category Badges */
+        .badge-academic { background-color: var(--mru-primary); }
+        .badge-event { background-color: var(--mru-danger); }
+        .badge-notice { background-color: var(--mru-success); }
+        .badge-emergency { background-color: var(--mru-warning); color: #000; }
+
+        /* Filter Buttons */
+        .filter-btn {
+            transition: all 0.3s;
+            border-radius: 20px;
+            padding: 8px 20px;
+            margin: 0 5px 10px;
+            font-weight: 500;
+            border: 2px solid var(--mru-primary);
+            background-color: transparent;
+            color: var(--mru-primary);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--mru-primary);
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .search-box input {
+            padding: 15px 25px;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            font-size: 1rem;
+            background-color: var(--mru-bg);
+            color: var(--mru-text);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--mru-primary), var(--mru-secondary));
+            color: white;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .search-box button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Upcoming Events */
+        .upcoming-events {
+            background-color: var(--mru-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .upcoming-events h4 {
+            color: var(--mru-danger);
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .event-item {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--bs-border-color);
+            transition: all 0.3s;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-item:hover {
+            transform: translateX(5px);
+        }
+
+        .event-date {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            background-color: var(--mru-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .quick-links h4 {
+            color: var(--mru-primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .quick-links a {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            color: var(--mru-text);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-radius: 6px;
+        }
+
+        .quick-links a:hover {
+            color: var(--mru-primary);
+            padding-left: 10px;
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .quick-links a i {
+            width: 25px;
+            text-align: center;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Emergency Contacts */
+        .emergency-contacts {
+            background-color: var(--mru-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            margin-top: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .emergency-contacts h4 {
+            color: var(--mru-danger);
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--mru-dark), #000);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer h5 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin: 0 15px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: var(--mru-accent);
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin: 0 8px;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: var(--mru-primary);
+            transform: translateY(-3px);
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Loading Spinner */
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(58, 12, 163, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--mru-primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Announcement Count */
+        .announcement-count {
+            font-size: 0.95rem;
+            color: var(--mru-text);
+            margin-bottom: 1.5rem;
+            padding: 10px 15px;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+            border-left: 4px solid var(--mru-primary);
+        }
+
+        /* Load More Button */
+        .load-more-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        #loadMoreBtn {
+            background: linear-gradient(135deg, var(--mru-primary), var(--mru-secondary));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        #loadMoreBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--mru-primary), var(--mru-secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .scroll-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            .filter-btn {
+                margin: 5px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            .navbar-brand img {
+                height: 30px;
+            }
+        }
+
+        /* Advanced Features */
+        .date-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .priority-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .priority-critical { background-color: var(--mru-danger); }
+        .priority-high { background-color: var(--mru-warning); }
+        .priority-medium { background-color: var(--mru-accent); }
+        .priority-low { background-color: var(--mru-success); }
+
+        .bookmark-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bookmark-btn:hover {
+            color: white;
+            transform: scale(1.2);
+        }
+
+        .bookmark-btn.bookmarked {
+            color: var(--mru-warning);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--mru-danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background-color: var(--mru-bg);
+            color: var(--mru-text);
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-left: 4px solid var(--mru-primary);
+        }
+
+        .toast-header {
+            background-color: var(--mru-bg);
+            color: var(--mru-text);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--mru-primary), var(--mru-secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        .fab-menu {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            background-color: var(--mru-bg);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: none;
+            width: 200px;
+        }
+
+        .fab-menu.show {
+            display: block;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .fab-item {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .fab-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .fab-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="https://via.placeholder.com/40x40" alt="MRU Logo" class="d-inline-block align-top">
+                <span class="ms-2">MRU CampusRise</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt me-1"></i> Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book me-1"></i> Academics</a>
+                    </li>
+                    <li class="nav-item position-relative">
+                        <a class="nav-link" href="#"><i class="fas fa-bell me-1"></i> Notifications</a>
+                        <span class="notification-badge">3</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-circle me-1"></i> Login</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <span class="nav-link theme-toggle">
+                            <i class="fas fa-moon"></i>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto">New Announcement</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Mid-Term Examination Schedule has been released. Check your portal for details.
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="hero-title animate__animated animate__fadeInDown">MRU CampusRise Announcements</h1>
+                <p class="hero-subtitle animate__animated animate__fadeInUp">Stay updated with the latest academic notices, campus events, and university updates</p>
+                
+                <!-- Search Box -->
+                <div class="search-box animate__animated animate__fadeInUp">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search announcements... (Try 'Exam', 'Event', 'Emergency')">
+                    <button class="btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Main Announcements Column -->
+            <div class="col-lg-8">
+                <!-- Filter Buttons -->
+                <div class="d-flex flex-wrap mb-4 animate__animated animate__fadeIn">
+                    <button class="filter-btn btn btn-outline-primary active" data-filter="all">All Announcements</button>
+                    <button class="filter-btn btn btn-outline-primary" data-filter="academic"><i class="fas fa-graduation-cap me-1"></i> Academic</button>
+                    <button class="filter-btn btn btn-outline-primary" data-filter="event"><i class="fas fa-calendar-alt me-1"></i> Events</button>
+                    <button class="filter-btn btn btn-outline-primary" data-filter="notice"><i class="fas fa-bullhorn me-1"></i> Notices</button>
+                    <button class="filter-btn btn btn-outline-primary" data-filter="emergency"><i class="fas fa-exclamation-triangle me-1"></i> Emergency</button>
+                </div>
+
+                <!-- Announcement Count -->
+                <div id="announcementCount" class="announcement-count animate__animated animate__fadeIn">
+                    Loading announcements...
+                </div>
+
+                <!-- Announcements List -->
+                <div id="announcements-container">
+                    <!-- Announcements will be loaded dynamically via JavaScript -->
+                </div>
+
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="spinner-container" style="display: none;">
+                    <div class="spinner"></div>
+                </div>
+
+                <!-- No Results Message -->
+                <div id="noResults" class="text-center py-5" style="display: none;">
+                    <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+                    <h4>No announcements found</h4>
+                    <p class="text-muted">Try adjusting your search or filter</p>
+                </div>
+
+                <!-- Load More Button -->
+                <div id="loadMoreContainer" class="load-more-container" style="display: none;">
+                    <button id="loadMoreBtn" class="btn btn-primary">
+                        <span id="loadMoreText">Load More Announcements</span>
+                        <span id="loadMoreSpinner" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true" style="display: none;"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sidebar Column -->
+            <div class="col-lg-4">
+                <!-- Upcoming Events -->
+                <div class="upcoming-events animate__animated animate__fadeIn">
+                    <h4><i class="fas fa-calendar-day me-2"></i> Upcoming Events</h4>
+                    <div id="events-list">
+                        <!-- Events loaded via JS -->
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-sm btn-outline-danger">View All Events</a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="quick-links animate__animated animate__fadeIn">
+                    <h4><i class="fas fa-link me-2"></i> Quick Links</h4>
+                    <a href="#"><i class="fas fa-user-graduate"></i> Student Portal</a>
+                    <a href="#"><i class="fas fa-book"></i> Academic Calendar</a>
+                    <a href="#"><i class="fas fa-file-alt"></i> Exam Results</a>
+                    <a href="#"><i class="fas fa-building"></i> Department Contacts</a>
+                    <a href="#"><i class="fas fa-bus"></i> Transport Schedule</a>
+                    <a href="#"><i class="fas fa-utensils"></i> Cafeteria Menu</a>
+                </div>
+
+                <!-- Emergency Contacts -->
+                <div class="emergency-contacts animate__animated animate__fadeIn">
+                    <h4><i class="fas fa-phone-alt me-2"></i> Emergency Contacts</h4>
+                    <a href="#"><i class="fas fa-ambulance"></i> Campus Security: 0129-4259000</a>
+                    <a href="#"><i class="fas fa-hospital"></i> Medical Center: 0129-4259111</a>
+                    <a href="#"><i class="fas fa-user-shield"></i> Student Welfare: 0129-4259222</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>MRU CampusRise</h5>
+                    <p class="small">Manav Rachna University's official announcement portal for students, faculty, and staff.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0 text-center">
+                    <div class="footer-links mb-3">
+                        <a href="#">About</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                    <div>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <h5>Download Our App</h5>
+                    <div class="mt-2">
+                        <a href="#" class="btn btn-outline-light btn-sm me-2 mb-2"><i class="fab fa-google-play me-1"></i> Google Play</a>
+                        <a href="#" class="btn btn-outline-light btn-sm mb-2"><i class="fab fa-apple me-1"></i> App Store</a>
+                    </div>
+                    <div class="mt-3">
+                        <a href="mailto:info@mru.edu" class="text-white small"><i class="fas fa-envelope me-1"></i> info@mru.edu</a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-4 mb-3" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center small">
+                © 2023 Manav Rachna University. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab">
+        <i class="fas fa-plus"></i>
+        <div class="fab-menu">
+            <div class="fab-item">
+                <i class="fas fa-bullhorn"></i> Create Announcement
+            </div>
+            <div class="fab-item">
+                <i class="fas fa-calendar-plus"></i> Add Event
+            </div>
+            <div class="fab-item">
+                <i class="fas fa-question-circle"></i> Quick Help
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ===== DARK/LIGHT MODE TOGGLE =====
+            const themeToggle = document.querySelector('.theme-toggle');
+            const body = document.body;
+
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            body.setAttribute('data-bs-theme', savedTheme);
+
+            // Update icon based on current theme
+            updateThemeIcon();
+
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = body.getAttribute('data-bs-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                body.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon();
+            });
+
+            function updateThemeIcon() {
+                const currentTheme = body.getAttribute('data-bs-theme');
+                const icon = themeToggle.querySelector('i');
+                if (currentTheme === 'dark') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+
+            // ===== TOAST NOTIFICATION =====
+            const toastEl = document.querySelector('.toast');
+            if (toastEl) {
+                const toast = new bootstrap.Toast(toastEl);
+                setTimeout(() => {
+                    toast.show();
+                }, 1500);
+            }
+
+            // ===== ANNOUNCEMENTS DATA (Simulated API) =====
+            const announcementsData = [
+                {
+                    id: 1,
+                    title: "Mid-Term Examination Schedule Released",
+                    category: "academic",
+                    date: new Date().toISOString().split('T')[0], // Today's date
+                    content: "The schedule for mid-term examinations for all courses has been published. Students are advised to check their department notice boards or the student portal for their individual schedules. The exams will commence from next Monday and continue for two weeks.",
+                    priority: "high",
+                    icon: "fa-graduation-cap",
+                    bookmarked: false
+                },
+                {
+                    id: 2,
+                    title: "Annual Tech Fest - InnovateX 2023",
+                    category: "event",
+                    date: "2023-11-20",
+                    content: "MRU presents InnovateX 2023, our annual technology festival featuring hackathons, workshops, guest lectures from industry leaders, and exciting competitions. This year's theme is 'Sustainable Technology for Future Generations'. Register now to participate in this exciting event! Early bird registrations get 20% discount.",
+                    priority: "medium",
+                    icon: "fa-calendar-alt",
+                    bookmarked: true
+                },
+                {
+                    id: 3,
+                    title: "Library Extended Hours During Exams",
+                    category: "notice",
+                    date: "2023-11-10",
+                    content: "The central library will remain open until 11:00 PM during the examination period (Nov 15 - Dec 5). Students must carry their ID cards for entry after 8:00 PM. Additional study spaces have been arranged in the adjacent building. Please maintain silence in the library premises.",
+                    priority: "low",
+                    icon: "fa-bullhorn",
+                    bookmarked: false
+                },
+                {
+                    id: 4,
+                    title: "Campus Closure - Heavy Rainfall Alert",
+                    category: "emergency",
+                    date: "2023-11-12",
+                    content: "Due to IMD's heavy rainfall warning for tomorrow (Nov 13), the campus will remain closed. All classes, labs, and activities are suspended. Essential services will continue to operate. Students in hostels are advised to stay indoors and avoid unnecessary movement. Stay safe and check email for updates. The situation will be reassessed tomorrow evening.",
+                    priority: "critical",
+                    icon: "fa-exclamation-triangle",
+                    bookmarked: false
+                },
+                {
+                    id: 5,
+                    title: "Summer Internship Opportunities",
+                    category: "academic",
+                    date: "2023-11-08",
+                    content: "Several leading companies have shared internship opportunities for summer 2023. Positions are available in software development, data science, marketing, and finance. Check the placement portal for details and application deadlines. Mandatory for 3rd year students. The first round of interviews will be conducted next week.",
+                    priority: "high",
+                    icon: "fa-graduation-cap",
+                    bookmarked: true
+                },
+                {
+                    id: 6,
+                    title: "Guest Lecture by Industry Expert",
+                    category: "event",
+                    date: "2023-11-25",
+                    content: "Mr. Rajesh Sharma, CTO of TechSolutions and MRU alumnus, will deliver a special lecture on 'Emerging Trends in AI and Machine Learning' on Nov 25 at 2:00 PM in Auditorium 3. The session will include live demonstrations and Q&A. Open to all students and faculty. Registration is free but mandatory due to limited seating.",
+                    priority: "medium",
+                    icon: "fa-calendar-alt",
+                    bookmarked: false
+                },
+                {
+                    id: 7,
+                    title: "Sports Day Registrations Open",
+                    category: "event",
+                    date: "2023-12-01",
+                    content: "Registrations for MRU Sports Day 2023 are now open. Events include cricket, football, badminton, table tennis, athletics, and more. This year we're introducing e-sports competitions. Last date to register: Nov 25. Preliminary matches begin next week. Winners will represent MRU at the inter-university championship.",
+                    priority: "low",
+                    icon: "fa-calendar-alt",
+                    bookmarked: false
+                },
+                {
+                    id: 8,
+                    title: "Scholarship Application Deadline Extended",
+                    category: "academic",
+                    date: "2023-11-18",
+                    content: "The deadline for scholarship applications has been extended to Nov 25 due to technical issues with the portal. Eligible students are encouraged to apply through the student portal. Required documents include academic transcripts, income certificate, and recommendation letter. Late submissions will not be considered under any circumstances.",
+                    priority: "high",
+                    icon: "fa-graduation-cap",
+                    bookmarked: false
+                },
+                {
+                    id: 9,
+                    title: "Research Paper Submission Deadline",
+                    category: "academic",
+                    date: "2023-11-22",
+                    content: "Final year students must submit their research papers by November 30th. Late submissions will not be accepted. Formatting guidelines are available on the department website. Each submission must include a signed plagiarism declaration. Presentations will be scheduled in the first week of December.",
+                    priority: "high",
+                    icon: "fa-graduation-cap",
+                    bookmarked: true
+                },
+                {
+                    id: 10,
+                    title: "Cultural Fest Auditions",
+                    category: "event",
+                    date: "2023-11-28",
+                    content: "Auditions for the annual cultural fest will be held on November 28th in the auditorium from 10 AM to 4 PM. Categories include music, dance, drama, and literary arts. All interested students should register beforehand. Participants selected will receive professional coaching sessions.",
+                    priority: "medium",
+                    icon: "fa-calendar-alt",
+                    bookmarked: false
+                },
+                {
+                    id: 11,
+                    title: "WiFi Maintenance Scheduled",
+                    category: "notice",
+                    date: "2023-11-16",
+                    content: "Campus WiFi will be unavailable this Saturday from 8:00 AM to 12:00 PM for scheduled maintenance and upgrades. The new system will provide faster speeds and better coverage. Offline resources in the library will remain accessible. Plan your work accordingly. We apologize for any inconvenience.",
+                    priority: "low",
+                    icon: "fa-bullhorn",
+                    bookmarked: false
+                },
+                {
+                    id: 12,
+                    title: "Power Outage - Science Block",
+                    category: "emergency",
+                    date: "2023-11-14",
+                    content: "Emergency power outage in Science Block from 2-4 PM today for critical electrical repairs. Classes in affected areas are canceled. Labs will resume tomorrow. Alternative arrangements have been made for ongoing experiments. Contact the science department office for urgent matters.",
+                    priority: "critical",
+                    icon: "fa-exclamation-triangle",
+                    bookmarked: false
+                }
+            ];
+
+            // ===== EVENTS DATA =====
+            const eventsData = [
+                {
+                    id: 1,
+                    title: "Career Counseling Workshop",
+                    date: "2023-11-18",
+                    time: "10:00 AM - 12:00 PM",
+                    location: "Career Center",
+                    description: "Learn how to prepare for job interviews and build your professional profile"
+                },
+                {
+                    id: 2,
+                    title: "InnovateX Tech Fest",
+                    date: "2023-11-20",
+                    time: "9:00 AM - 5:00 PM",
+                    location: "Main Auditorium",
+                    description: "Annual technology festival with competitions and guest speakers"
+                },
+                {
+                    id: 3,
+                    title: "AI Trends Lecture",
+                    date: "2023-11-25",
+                    time: "2:00 PM - 4:00 PM",
+                    location: "Auditorium 3",
+                    description: "Emerging trends in artificial intelligence by industry expert"
+                },
+                {
+                    id: 4,
+                    title: "Sports Day",
+                    date: "2023-12-01",
+                    time: "8:00 AM - 5:00 PM",
+                    location: "University Ground",
+                    description: "Annual sports competition between departments"
+                }
+            ];
+
+            // ===== ANNOUNCEMENTS MANAGEMENT =====
+            const announcementsContainer = document.getElementById('announcements-container');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const noResults = document.getElementById('noResults');
+            const announcementCount = document.getElementById('announcementCount');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const loadMoreText = document.getElementById('loadMoreText');
+            const loadMoreSpinner = document.getElementById('loadMoreSpinner');
+            const scrollToTopBtn = document.querySelector('.scroll-to-top');
+            const fab = document.querySelector('.fab');
+            const fabMenu = document.querySelector('.fab-menu');
+
+            let currentFilter = 'all';
+            let currentSearchTerm = '';
+            let currentPage = 1;
+            const announcementsPerPage = 4;
+            let filteredAnnouncements = [];
+
+            function renderAnnouncements(filter = 'all', searchTerm = '', page = 1, reset = true) {
+                if (reset) {
+                    currentPage = 1;
+                    announcementsContainer.innerHTML = '';
+                    loadMoreContainer.style.display = 'none';
+                }
+                
+                currentFilter = filter;
+                currentSearchTerm = searchTerm;
+                
+                loadingSpinner.style.display = 'flex';
+                noResults.style.display = 'none';
+                announcementCount.textContent = 'Loading announcements...';
+
+                // Simulate API delay
+                setTimeout(() => {
+                    loadingSpinner.style.display = 'none';
+
+                    // Apply filter
+                    if (filter === 'all') {
+                        filteredAnnouncements = [...announcementsData];
+                    } else {
+                        filteredAnnouncements = announcementsData.filter(ann => ann.category === filter);
+                    }
+
+                    // Apply search
+                    if (searchTerm) {
+                        const term = searchTerm.toLowerCase();
+                        filteredAnnouncements = filteredAnnouncements.filter(ann => 
+                            ann.title.toLowerCase().includes(term) || 
+                            ann.content.toLowerCase().includes(term)
+                        );
+                    }
+
+                    // Update count display
+                    updateAnnouncementCount(filteredAnnouncements.length);
+
+                    if (filteredAnnouncements.length === 0) {
+                        noResults.style.display = 'block';
+                        loadMoreContainer.style.display = 'none';
+                        return;
+                    }
+
+                    // Sort by priority (critical > high > medium > low)
+                    const priorityOrder = { 'critical': 4, 'high': 3, 'medium': 2, 'low': 1 };
+                    filteredAnnouncements.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+
+                    // Calculate pagination
+                    const startIndex = (page - 1) * announcementsPerPage;
+                    const endIndex = startIndex + announcementsPerPage;
+                    const announcementsToShow = filteredAnnouncements.slice(startIndex, endIndex);
+
+                    // Render announcements
+                    announcementsToShow.forEach((announcement, index) => {
+                        const announcementCard = document.createElement('div');
+                        announcementCard.className = `card announcement-card ${announcement.category}`;
+                        announcementCard.setAttribute('data-category', announcement.category);
+                        announcementCard.style.animationDelay = `${index * 0.1}s`;
+
+                        // Format date
+                        const formattedDate = new Date(announcement.date).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                        });
+
+                        // Check if date is today
+                        const today = new Date().toISOString().split('T')[0];
+                        const isToday = announcement.date === today;
+                        const displayDate = isToday ? 'Today' : formattedDate;
+
+                        // Priority indicator
+                        const priorityClass = `priority-${announcement.priority}`;
+
+                        announcementCard.innerHTML = `
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span><i class="fas ${announcement.icon} me-2"></i> ${announcement.category.charAt(0).toUpperCase() + announcement.category.slice(1)}</span>
+                                <div>
+                                    <span class="priority-indicator ${priorityClass}" title="${announcement.priority} priority"></span>
+                                    <span class="date-badge ${isToday ? 'bg-warning text-dark' : ''}">${displayDate}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${announcement.title}</h5>
+                                <p class="card-text">${announcement.content}</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <span class="badge rounded-pill badge-${announcement.category}">${announcement.category.charAt(0).toUpperCase() + announcement.category.slice(1)}</span>
+                                <div>
+                                    <a href="#" class="btn btn-sm ${announcement.category === 'event' ? 'btn-outline-danger' : announcement.category === 'emergency' ? 'btn-outline-warning' : 'btn-outline-primary'} me-2">
+                                        ${announcement.category === 'event' ? 'Register Now' : announcement.category === 'academic' ? 'View Details' : 'Read More'}
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="bookmark-btn ${announcement.bookmarked ? 'bookmarked' : ''}" data-id="${announcement.id}">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                        `;
+
+                        announcementsContainer.appendChild(announcementCard);
+
+                        // Animate card entry
+                        setTimeout(() => {
+                            announcementCard.classList.add('show');
+                        }, 50);
+                    });
+
+                    // Show/hide load more button
+                    if (endIndex < filteredAnnouncements.length) {
+                        loadMoreContainer.style.display = 'block';
+                    } else {
+                        loadMoreContainer.style.display = 'none';
+                    }
+
+                    // Add event listeners to bookmark buttons
+                    document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                        btn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const id = parseInt(this.getAttribute('data-id'));
+                            const announcement = announcementsData.find(a => a.id === id);
+                            if (announcement) {
+                                announcement.bookmarked = !announcement.bookmarked;
+                                this.classList.toggle('bookmarked');
+                                
+                                // Show toast notification
+                                const toast = new bootstrap.Toast(document.querySelector('.toast'));
+                                document.querySelector('.toast-body').textContent = 
+                                    `Announcement "${announcement.title.substring(0, 30)}..." ${announcement.bookmarked ? 'bookmarked' : 'removed from bookmarks'}`;
+                                toast.show();
+                            }
+                        });
+                    });
+                }, 500); // Simulate API delay
+            }
+
+            function updateAnnouncementCount(total) {
+                if (total === 0) {
+                    announcementCount.textContent = 'No announcements found';
+                } else if (currentFilter === 'all') {
+                    announcementCount.textContent = `Showing ${Math.min(currentPage * announcementsPerPage, total)} of ${total} announcements`;
+                } else {
+                    const categoryName = currentFilter.charAt(0).toUpperCase() + currentFilter.slice(1);
+                    announcementCount.textContent = `Showing ${Math.min(currentPage * announcementsPerPage, total)} of ${total} ${categoryName} announcements`;
+                }
+            }
+
+            function loadMoreAnnouncements() {
+                loadMoreText.textContent = 'Loading...';
+                loadMoreSpinner.style.display = 'inline-block';
+                loadMoreBtn.disabled = true;
+                
+                currentPage++;
+                
+                setTimeout(() => {
+                    renderAnnouncements(currentFilter, currentSearchTerm, currentPage, false);
+                    loadMoreText.textContent = 'Load More Announcements';
+                    loadMoreSpinner.style.display = 'none';
+                    loadMoreBtn.disabled = false;
+                    
+                    // Scroll to show new announcements
+                    const cards = document.querySelectorAll('.announcement-card');
+                    if (cards.length > announcementsPerPage) {
+                        cards[cards.length - announcementsPerPage].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }, 800);
+            }
+
+            // ===== RENDER EVENTS =====
+            function renderEvents() {
+                const eventsList = document.getElementById('events-list');
+                eventsList.innerHTML = '';
+
+                eventsData.forEach(event => {
+                    const formattedDate = new Date(event.date).toLocaleDateString('en-US', { 
+                        weekday: 'short', 
+                        month: 'short', 
+                        day: 'numeric' 
+                    });
+
+                    const eventItem = document.createElement('div');
+                    eventItem.className = 'event-item';
+                    eventItem.innerHTML = `
+                        <div class="event-date text-primary fw-bold">${formattedDate}</div>
+                        <h6>${event.title}</h6>
+                        <p class="text-muted small mb-2">${event.time}, ${event.location}</p>
+                        <p class="small">${event.description}</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary mt-2">Details</a>
+                    `;
+                    eventsList.appendChild(eventItem);
+                });
+            }
+
+            // ===== FILTER ANNOUNCEMENTS =====
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    const searchTerm = document.getElementById('searchInput').value;
+                    renderAnnouncements(filter, searchTerm);
+                });
+            });
+
+            // ===== SEARCH FUNCTIONALITY =====
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            searchBtn.addEventListener('click', () => {
+                const searchTerm = searchInput.value;
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                renderAnnouncements(activeFilter, searchTerm);
+            });
+
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    const searchTerm = searchInput.value;
+                    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                    renderAnnouncements(activeFilter, searchTerm);
+                }
+            });
+
+            // ===== LOAD MORE FUNCTIONALITY =====
+            loadMoreBtn.addEventListener('click', loadMoreAnnouncements);
+
+            // ===== SCROLL TO TOP =====
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('active');
+                } else {
+                    scrollToTopBtn.classList.remove('active');
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // ===== FLOATING ACTION BUTTON =====
+            fab.addEventListener('click', () => {
+                fabMenu.classList.toggle('show');
+                fab.querySelector('i').classList.toggle('fa-plus');
+                fab.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Close FAB menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!fab.contains(e.target)) {
+                    fabMenu.classList.remove('show');
+                    fab.querySelector('i').classList.remove('fa-times');
+                    fab.querySelector('i').classList.add('fa-plus');
+                }
+            });
+
+            // ===== INITIAL RENDER =====
+            renderAnnouncements();
+            renderEvents();
+        });
+    </script>
+</body>
+</html>

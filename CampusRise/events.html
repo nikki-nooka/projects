@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Coordination Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), 
+                        url('https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .event-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .event-card img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .event-date {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .registration-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--secondary);
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--dark);
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+        
+        .organizer-card {
+            text-align: center;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .organizer-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .organizer-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--light);
+            margin: 0 auto 15px;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .social-icon {
+            color: white;
+            font-size: 20px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-calendar-event me-2"></i>MRU CampusRise
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                   
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-4">Professional Event Coordination</h1>
+            <p class="lead mb-5">We plan, organize, and execute memorable events with precision and creativity</p>
+            <a href="#register" class="btn btn-primary btn-lg px-4 me-2">Register Now</a>
+            <a href="#events" class="btn btn-outline-light btn-lg px-4">View Events</a>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="py-5 bg-light" id="events">
+        <div class="container">
+            <h2 class="text-center section-title">Upcoming Events</h2>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="event-card">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Concert">
+                            <div class="event-date">June 15</div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Summer Music Festival</h5>
+                            <p class="card-text">Join us for the biggest music event of the year featuring top artists from around the world.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Music</span>
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#eventModal1">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="event-card">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Conference">
+                            <div class="event-date">July 22</div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Tech Innovation Summit</h5>
+                            <p class="card-text">A gathering of tech leaders and innovators discussing the future of technology.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Technology</span>
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#eventModal2">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="event-card">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1527525443983-6e60c75fff46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Workshop">
+                            <div class="event-date">Aug 5</div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Creative Writing Workshop</h5>
+                            <p class="card-text">Learn from bestselling authors and improve your writing skills in this intensive workshop.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Education</span>
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#eventModal3">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-primary">View All Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section class="py-5" id="register">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="text-center section-title">Event Registration</h2>
+                    
+                    <div class="registration-form">
+                        <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-attendee-tab" data-bs-toggle="pill" data-bs-target="#pills-attendee" type="button">Attendee</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-volunteer-tab" data-bs-toggle="pill" data-bs-target="#pills-volunteer" type="button">Volunteer</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-speaker-tab" data-bs-toggle="pill" data-bs-target="#pills-speaker" type="button">Speaker</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content" id="pills-tabContent">
+                            <!-- Attendee Form -->
+                            <div class="tab-pane fade show active" id="pills-attendee" role="tabpanel">
+                                <form id="attendeeForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="firstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="lastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="phone">
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="eventSelect" class="form-label">Select Event</label>
+                                        <select class="form-select" id="eventSelect" required>
+                                            <option value="" selected disabled>Choose an event</option>
+                                            <option value="Summer Music Festival">Summer Music Festival</option>
+                                            <option value="Tech Innovation Summit">Tech Innovation Summit</option>
+                                            <option value="Creative Writing Workshop">Creative Writing Workshop</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="attendeeNotes" class="form-label">Special Requirements</label>
+                                        <textarea class="form-control" id="attendeeNotes" rows="3"></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary w-100">Register as Attendee</button>
+                                </form>
+                            </div>
+                            
+                            <!-- Volunteer Form -->
+                            <div class="tab-pane fade" id="pills-volunteer" role="tabpanel">
+                                <form id="volunteerForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="volFirstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="volFirstName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="volLastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="volLastName" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="volEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="volEmail" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="volPhone" class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="volPhone" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="volEventSelect" class="form-label">Select Event</label>
+                                        <select class="form-select" id="volEventSelect" required>
+                                            <option value="" selected disabled>Choose an event</option>
+                                            <option value="Summer Music Festival">Summer Music Festival</option>
+                                            <option value="Tech Innovation Summit">Tech Innovation Summit</option>
+                                            <option value="Creative Writing Workshop">Creative Writing Workshop</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="volSkills" class="form-label">Skills/Experience</label>
+                                        <textarea class="form-control" id="volSkills" rows="3" required></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="volAvailability" class="form-label">Availability</label>
+                                        <input type="text" class="form-control" id="volAvailability" placeholder="e.g., Weekends, Evenings" required>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary w-100">Apply as Volunteer</button>
+                                </form>
+                            </div>
+                            
+                            <!-- Speaker Form -->
+                            <div class="tab-pane fade" id="pills-speaker" role="tabpanel">
+                                <form id="speakerForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="speakerFirstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="speakerFirstName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="speakerLastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="speakerLastName" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="speakerEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="speakerEmail" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="speakerPhone" class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="speakerPhone" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="speakerEventSelect" class="form-label">Select Event</label>
+                                        <select class="form-select" id="speakerEventSelect" required>
+                                            <option value="" selected disabled>Choose an event</option>
+                                            <option value="Summer Music Festival">Summer Music Festival</option>
+                                            <option value="Tech Innovation Summit">Tech Innovation Summit</option>
+                                            <option value="Creative Writing Workshop">Creative Writing Workshop</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="speakerTopic" class="form-label">Presentation Topic</label>
+                                        <input type="text" class="form-control" id="speakerTopic" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="speakerBio" class="form-label">Professional Bio</label>
+                                        <textarea class="form-control" id="speakerBio" rows="3" required></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="speakerRequirements" class="form-label">Technical Requirements</label>
+                                        <textarea class="form-control" id="speakerRequirements" rows="2"></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary w-100">Apply as Speaker</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coordinators Section -->
+    <section class="py-5 bg-light" id="coordinators">
+        <div class="container">
+            <h2 class="text-center section-title">Our Coordinators</h2>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="organizer-card">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="organizer-img" alt="Coordinator">
+                        <h4>Sarah Johnson</h4>
+                        <p class="text-muted">Event Director</p>
+                        <p>With over 10 years of experience in event planning, Sarah ensures every detail is perfect.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="organizer-card">
+                        <img src="https://randomuser.me/api/portraits/men/41.jpg" class="organizer-img" alt="Coordinator">
+                        <h4>Michael Chen</h4>
+                        <p class="text-muted">Logistics Manager</p>
+                        <p>Michael handles all the behind-the-scenes operations to make events run smoothly.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="organizer-card">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="organizer-img" alt="Coordinator">
+                        <h4>Emily Rodriguez</h4>
+                        <p class="text-muted">Creative Director</p>
+                        <p>Emily brings innovative ideas and designs to make each event unique and memorable.</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-5" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Contact Us</h2>
+                    <p>Have questions about our events or services? Reach out to our team!</p>
+                    
+                    <div class="mb-4">
+                        <h5><i class="bi bi-geo-alt-fill me-2"></i> Address</h5>
+                        <p>123 Event Street, Suite 456<br>New York, NY 10001</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="bi bi-telephone-fill me-2"></i> Phone</h5>
+                        <p>(212) 555-1234</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="bi bi-envelope-fill me-2"></i> Email</h5>
+                        <p>info@eventco.com</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="registration-form">
+                        <h4 class="mb-4">Send Us a Message</h4>
+                        <form id="contactForm">
+                            <div class="mb-3">
+                                <label for="contactName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="contactName" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="contactEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="contactEmail" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="contactSubject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="contactSubject" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="contactMessage" class="form-label">Message</label>
+                                <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <div class="mb-4">
+                <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+            </div>
+            <p>&copy; 2023 EventCo. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Event Modals -->
+    <div class="modal fade" id="eventModal1" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Summer Music Festival</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid mb-3" alt="Concert">
+                    <p><strong>Date:</strong> June 15, 2023</p>
+                    <p><strong>Location:</strong> Central Park, New York</p>
+                    <p><strong>Description:</strong> Join us for the biggest music event of the year featuring top artists from around the world. This all-day festival will showcase multiple stages with various music genres, food trucks, and art installations.</p>
+                    <p><strong>Ticket Prices:</strong> $50 General Admission | $150 VIP</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="#register" class="btn btn-primary" data-bs-dismiss="modal">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="eventModal2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tech Innovation Summit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid mb-3" alt="Conference">
+                    <p><strong>Date:</strong> July 22, 2023</p>
+                    <p><strong>Location:</strong> Tech Convention Center</p>
+                    <p><strong>Description:</strong> A gathering of tech leaders and innovators discussing the future of technology. Keynote speeches, panel discussions, and networking opportunities with industry pioneers.</p>
+                    <p><strong>Ticket Prices:</strong> $200 Early Bird | $300 Regular</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="#register" class="btn btn-primary" data-bs-dismiss="modal">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="eventModal3" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Creative Writing Workshop</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="https://images.unsplash.com/photo-1527525443983-6e60c75fff46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid mb-3" alt="Workshop">
+                    <p><strong>Date:</strong> August 5, 2023</p>
+                    <p><strong>Location:</strong> Downtown Arts Center</p>
+                    <p><strong>Description:</strong> Learn from bestselling authors and improve your writing skills in this intensive workshop. Sessions on character development, plot structure, and getting published.</p>
+                    <p><strong>Ticket Prices:</strong> $75 Half Day | $125 Full Day</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="#register" class="btn btn-primary" data-bs-dismiss="modal">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-5">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+                    <h3 class="mt-3">Registration Successful!</h3>
+                    <p class="mb-4">Thank you for registering. We've sent a confirmation to your email.</p>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form submission handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Attendee form
+            document.getElementById('attendeeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Here you would typically send the data to a server
+                console.log('Attendee form submitted');
+                
+                // Show success modal
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                
+                // Reset form
+                this.reset();
+            });
+            
+            // Volunteer form
+            document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Volunteer form submitted');
+                
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                this.reset();
+            });
+            
+            // Speaker form
+            document.getElementById('speakerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Speaker form submitted');
+                
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                this.reset();
+            });
+            
+            // Contact form
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Contact form submitted');
+                
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                document.querySelector('#successModal .modal-body h3').textContent = 'Message Sent!';
+                document.querySelector('#successModal .modal-body p').textContent = 'Thank you for contacting us. We will respond soon.';
+                successModal.show();
+                this.reset();
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

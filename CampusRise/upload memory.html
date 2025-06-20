@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Vault | Your Digital Scrapbook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --secondary: #00b894;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --accent: #fd79a8;
+            --accent-dark: #e84393;
+            --warning: #fdcb6e;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #dfe6e9 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .header-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, #4a3dc0 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .header-gradient::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"><path d="M0 0 L100 100 M100 0 L0 100"/></svg>');
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .memory-card {
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            background: white;
+            border: none;
+            position: relative;
+        }
+        
+        .memory-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        .memory-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .memory-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .memory-card:hover .memory-img {
+            transform: scale(1.05);
+        }
+        
+        .tag-badge {
+            background: var(--primary-light);
+            color: white;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .tag-badge:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            border: none;
+            padding: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: #4a3dc0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 92, 231, 0.4);
+        }
+        
+        #memoriesContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+            padding: 25px;
+        }
+        
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            font-size: 28px;
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            box-shadow: 0 6px 20px rgba(253, 121, 168, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .floating-btn:hover {
+            background: var(--accent-dark);
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 25px rgba(253, 121, 168, 0.6);
+        }
+        
+        #imagePreview {
+            display: none;
+            max-height: 250px;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px dashed var(--primary-light);
+            transition: all 0.3s ease;
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 800px;
+            border-top: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .form-section:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-control, .form-control:focus {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.15);
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+        }
+        
+        .card-text {
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .date-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            z-index: 2;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .image-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .memory-actions {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .memory-card:hover .memory-actions {
+            opacity: 1;
+        }
+        
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+        
+        .action-btn.delete {
+            color: #d63031;
+        }
+        
+        .action-btn.edit {
+            color: var(--primary);
+        }
+        
+        .action-btn.share {
+            color: var(--secondary);
+        }
+        
+        @media (max-width: 768px) {
+            #memoriesContainer {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+            
+            .header-gradient {
+                font-size: 2rem;
+                padding: 20px;
+            }
+            
+            .form-section {
+                padding: 20px;
+                margin: 20px 10px;
+            }
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(108, 92, 231, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+        }
+        
+        .alert-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1100;
+            min-width: 300px;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-gradient">
+        <i class="bi bi-journal-bookmark-fill me-2"></i> Memory Vault
+        <div class="fs-6 mt-2" style="font-family: 'Poppins', sans-serif; font-weight: 300;">Preserve your precious moments</div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="form-section">
+            <h4 class="text-center mb-4" style="color: var(--primary);">
+                <i class="bi bi-plus-circle-fill me-2"></i>Add a New Memory
+            </h4>
+            <div class="mb-3">
+                <label for="memoryTitle" class="form-label">Memory Title</label>
+                <input type="text" id="memoryTitle" class="form-control" placeholder="e.g. Beach Vacation 2023">
+            </div>
+            <div class="mb-3">
+                <label for="memoryDesc" class="form-label">Description</label>
+                <textarea id="memoryDesc" class="form-control" rows="3" placeholder="Describe your memory..."></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="memoryTags" class="form-label">Tags</label>
+                <input type="text" id="memoryTags" class="form-control" placeholder="vacation, summer, family (comma separated)">
+            </div>
+            <div class="mb-3">
+                <label for="memoryImage" class="form-label">Upload Image</label>
+                <input type="file" id="memoryImage" class="form-control" accept="image/*">
+                <div class="form-text">Choose a beautiful photo to remember this moment</div>
+            </div>
+            <img id="imagePreview" class="img-fluid shadow">
+            <button class="btn btn-primary w-100 mt-3 pulse" onclick="addMemory()">
+                <i class="bi bi-save-fill me-2"></i> Save to Vault
+            </button>
+        </div>
+
+        <div id="memoriesContainer">
+            <div class="empty-state">
+                <i class="bi bi-journal-text"></i>
+                <h3>Your Memory Vault is Empty</h3>
+                <p>Start by adding your first memory above!</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="floating-btn" onclick="scrollToTop()" title="Back to top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <script>
+        // Initialize the vault when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeVault();
+        });
+
+        function initializeVault() {
+            // Set up image preview
+            document.getElementById("memoryImage").addEventListener("change", function(event) {
+                previewImage(event);
+            });
+            
+            // Load existing memories from vault
+            loadMemoriesFromVault();
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imagePreview = document.getElementById("imagePreview");
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addMemory() {
+            // Get form values
+            const title = document.getElementById("memoryTitle").value.trim();
+            const desc = document.getElementById("memoryDesc").value.trim();
+            const tagsInput = document.getElementById("memoryTags").value.trim();
+            const imageFile = document.getElementById("memoryImage").files[0];
+
+            // Validate inputs
+            if (!title || !desc || !imageFile) {
+                showAlert("Please fill in all fields and select an image.", "warning");
+                return;
+            }
+
+            // Process tags
+            const tags = tagsInput ? tagsInput.split(",").map(tag => tag.trim()).filter(tag => tag) : [];
+            const date = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Read image file
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newMemory = {
+                    id: Date.now(), // Unique ID for each memory
+                    title,
+                    desc,
+                    tags,
+                    image: e.target.result,
+                    date,
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Save to vault (localStorage)
+                saveToVault(newMemory);
+                
+                // Reset form
+                resetForm();
+                
+                // Show success message
+                showAlert("Memory saved to vault successfully!", "success");
+                
+                // Scroll to the newly added memory
+                setTimeout(() => {
+                    document.querySelector('.memory-card')?.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }, 500);
+            };
+            reader.readAsDataURL(imageFile);
+        }
+
+        function saveToVault(memory) {
+            const vault = JSON.parse(localStorage.getItem('memoryVault')) || [];
+            vault.unshift(memory); // Add new memory at the beginning
+            localStorage.setItem('memoryVault', JSON.stringify(vault));
+            loadMemoriesFromVault();
+        }
+
+        function resetForm() {
+            document.getElementById("memoryTitle").value = "";
+            document.getElementById("memoryDesc").value = "";
+            document.getElementById("memoryTags").value = "";
+            document.getElementById("memoryImage").value = "";
+            document.getElementById("imagePreview").style.display = "none";
+        }
+
+        function loadMemoriesFromVault() {
+            const vault = JSON.parse(localStorage.getItem('memoryVault')) || [];
+            const container = document.getElementById("memoriesContainer");
+            
+            if (vault.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-journal-text"></i>
+                        <h3>Your Memory Vault is Empty</h3>
+                        <p>Start by adding your first memory above!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = vault.map(memory => `
+                <div class="memory-card fade-in" data-id="${memory.id}">
+                    <div class="image-container">
+                        <span class="date-badge">${memory.date}</span>
+                        <img src="${memory.image}" class="memory-img">
+                        <div class="memory-actions">
+                            <button class="action-btn edit" onclick="editMemory('${memory.id}')" title="Edit">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteFromVault('${memory.id}')" title="Delete">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                            <button class="action-btn share" onclick="shareMemory('${memory.id}')" title="Share">
+                                <i class="bi bi-share-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${memory.title}</h5>
+                        <p class="card-text">${memory.desc}</p>
+                        <div>${memory.tags.map(tag => `<span class="tag-badge">${tag}</span>`).join('')}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteFromVault(id) {
+            if (confirm("Are you sure you want to delete this memory from your vault?")) {
+                const vault = JSON.parse(localStorage.getItem('memoryVault')) || [];
+                const updatedVault = vault.filter(memory => memory.id !== parseInt(id));
+                localStorage.setItem('memoryVault', JSON.stringify(updatedVault));
+                loadMemoriesFromVault();
+                showAlert("Memory deleted from vault.", "success");
+            }
+        }
+
+        function editMemory(id) {
+            const vault = JSON.parse(localStorage.getItem('memoryVault')) || [];
+            const memory = vault.find(m => m.id === parseInt(id));
+            
+            if (!memory) {
+                showAlert("Memory not found in vault.", "danger");
+                return;
+            }
+            
+            // Fill the form with the memory data
+            document.getElementById("memoryTitle").value = memory.title;
+            document.getElementById("memoryDesc").value = memory.desc;
+            document.getElementById("memoryTags").value = memory.tags.join(", ");
+            
+            // Display the image
+            const imagePreview = document.getElementById("imagePreview");
+            imagePreview.src = memory.image;
+            imagePreview.style.display = "block";
+            
+            // Remove the old memory from vault
+            const updatedVault = vault.filter(m => m.id !== parseInt(id));
+            localStorage.setItem('memoryVault', JSON.stringify(updatedVault));
+            
+            // Scroll to form
+            document.querySelector('.form-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+            
+            showAlert("Memory loaded for editing. Update the fields and save to vault.", "info");
+        }
+
+        function shareMemory(id) {
+            const vault = JSON.parse(localStorage.getItem('memoryVault')) || [];
+            const memory = vault.find(m => m.id === parseInt(id));
+            
+            if (memory && navigator.share) {
+                navigator.share({
+                    title: memory.title,
+                    text: memory.desc,
+                    url: window.location.href
+                }).catch(err => {
+                    showAlert("Sharing failed: " + err, "danger");
+                });
+            } else {
+                showAlert("Web Share API not supported in your browser", "warning");
+            }
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-notification`;
+            alertDiv.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>${message}</span>
+                    <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.style.opacity = '0';
+                setTimeout(() => alertDiv.remove(), 500);
+            }, 3000);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>

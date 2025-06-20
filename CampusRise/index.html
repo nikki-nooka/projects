@@ -1,0 +1,1134 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusRise - Modern Campus Management</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary: #8A2BE2; /* Changed from blue to purple */
+        --primary-dark: #6A1FB1;
+        --secondary: #5E5CE6;
+        --success: #34C759;
+        --danger: #FF3B30;
+        --warning: #FF9F0A;
+        --info: #5AC8FA;
+        --dark: #1d1d1f;
+        --light: #f5f5f7;
+        --medium-gray: #86868b;
+        --border-light: rgba(0, 0, 0, 0.1);
+        --glass-bg: rgba(255, 255, 255, 0.8);
+        --glass-border: rgba(255, 255, 255, 0.2);
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        color: var(--dark);
+        background-color: #fff;
+        overflow-x: hidden;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+      }
+      
+      .fw-medium {
+        font-weight: 500;
+      }
+      
+      .btn {
+        border-radius: 100px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+      }
+      
+      .btn-primary:hover {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(138, 43, 226, 0.25);
+      }
+      
+      .btn-outline-primary {
+        color: var(--primary);
+        border-color: var(--primary);
+      }
+      
+      .btn-outline-primary:hover {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+      
+      .btn-light {
+        background-color: #fff;
+        color: var(--primary);
+        border-color: #fff;
+      }
+      
+      .btn-light:hover {
+        background-color: #f8f9fa;
+        color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Transparent Navbar */
+      .navbar {
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+      }
+      
+      .navbar-transparent {
+        background-color: transparent;
+      }
+      
+      .navbar-scrolled {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: white;
+        transition: all 0.3s ease;
+      }
+      
+      .navbar-scrolled .navbar-brand {
+        color: var(--dark);
+      }
+      
+      .nav-link {
+        font-weight: 500;
+        padding: 0.5rem 1rem !important;
+        color: white !important;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+      
+      .navbar-scrolled .nav-link {
+        color: var(--dark) !important;
+      }
+      
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background-color: white;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+      
+      .navbar-scrolled .nav-link::after {
+        background-color: var(--primary);
+      }
+      
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 30px;
+      }
+      
+      .nav-link.active {
+        color: white !important;
+      }
+      
+      .navbar-scrolled .nav-link.active {
+        color: var(--primary) !important;
+      }
+      
+      .navbar-toggler {
+        border: none;
+        background: transparent;
+      }
+      
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+      }
+      
+      .navbar-scrolled .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(29,29,31, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+      }
+      
+      /* Hero Section */
+      .hero-section {
+        background: linear-gradient(135deg, #8A2BE2 0%, #A45EE5 100%); /* Changed from blue to purple gradient */
+        height: 100vh;
+        min-height: 600px;
+        max-height: 900px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        color: white;
+      }
+      
+      .hero-shape {
+        position: absolute;
+        opacity: 0.1;
+        border-radius: 50%;
+        background-color: white;
+      }
+      
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        font-weight: 400;
+        opacity: 0.9;
+      }
+      
+      .glass-card {
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid var(--glass-border);
+        padding: 2rem;
+        transition: all 0.3s ease;
+      }
+      
+      .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .quick-access-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        color: var(--dark);
+        text-decoration: none;
+        margin-bottom: 0.75rem;
+        transition: all 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.7);
+      }
+      
+      .quick-access-link i {
+        color: var(--primary);
+        font-size: 1.2rem;
+        margin-right: 1rem;
+        transition: all 0.3s ease;
+      }
+      
+      .quick-access-link:hover {
+        background-color: white;
+        transform: translateX(5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+      
+      .quick-access-link:hover i {
+        transform: scale(1.2);
+      }
+      
+      /* Stats Counter */
+      .stats-card {
+        padding: 2rem;
+        border-radius: 16px;
+        background-color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-light);
+      }
+      
+      .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .stats-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 24px;
+      }
+      
+      .students-icon { background-color: rgba(138, 43, 226, 0.1); color: var(--primary); }
+      .courses-icon { background-color: rgba(94, 92, 230, 0.1); color: var(--secondary); }
+      .events-icon { background-color: rgba(52, 199, 89, 0.1); color: var(--success); }
+      .faculty-icon { background-color: rgba(255, 159, 10, 0.1); color: var(--warning); }
+      
+      .stats-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        line-height: 1;
+      }
+      
+      .stats-students { color: var(--primary); }
+      .stats-courses { color: var(--secondary); }
+      .stats-events { color: var(--success); }
+      .stats-faculty { color: var(--warning); }
+      
+      /* Features */
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      
+      .section-title h2 {
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .section-title p {
+        max-width: 600px;
+        margin: 0 auto;
+        color: var(--medium-gray);
+      }
+      
+      .feature-card {
+        padding: 2rem;
+        border-radius: 16px;
+        background-color: white;
+        transition: all 0.3s ease;
+        height: 100%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--border-light);
+      }
+      
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+      
+      .feature-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        font-size: 28px;
+      }
+      
+      .feature-title {
+        font-weight: 600;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+      
+      .feature-text {
+        color: var(--medium-gray);
+        margin-bottom: 1.5rem;
+      }
+      
+      .feature-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+      }
+      
+      .feature-link i {
+        margin-left: 0.5rem;
+        transition: transform 0.3s ease;
+      }
+      
+      .feature-link:hover i {
+        transform: translateX(5px);
+      }
+      
+      /* Testimonials */
+      .testimonial-card {
+        padding: 2rem;
+        border-radius: 16px;
+        background-color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 1px solid var(--border-light);
+      }
+      
+      .testimonial-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+      
+      .testimonial-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 1rem;
+      }
+      
+      .testimonial-name {
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+      
+      .testimonial-role {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+      }
+      
+      .testimonial-text {
+        margin-top: 1.5rem;
+        color: var(--dark);
+        position: relative;
+        padding-left: 1.5rem;
+      }
+      
+      .testimonial-text::before {
+        content: '"';
+        position: absolute;
+        left: 0;
+        top: -5px;
+        font-size: 2rem;
+        color: var(--primary);
+        font-weight: 700;
+        opacity: 0.3;
+      }
+      
+      /* Announcements */
+      .announcement-card {
+        padding: 1.5rem;
+        border-radius: 16px;
+        background-color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+        border-left: 4px solid;
+        border-top: 1px solid var(--border-light);
+        border-right: 1px solid var(--border-light);
+        border-bottom: 1px solid var(--border-light);
+      }
+      
+      .announcement-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+      
+      .announcement-academic { border-left-color: var(--primary); }
+      .announcement-facilities { border-left-color: var(--secondary); }
+      .announcement-events { border-left-color: var(--success); }
+      
+      .announcement-date {
+        color: var(--medium-gray);
+        font-size: 0.875rem;
+      }
+      
+      .announcement-title {
+        font-weight: 600;
+        margin: 0.5rem 0 1rem;
+      }
+      
+      .announcement-text {
+        color: var(--medium-gray);
+      }
+      
+      /* Campus Image */
+      .campus-image-container {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        position: relative;
+        display: block;
+        transition: all 0.3s ease;
+      }
+      
+      .campus-image-container:hover {
+        transform: scale(1.02);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+      }
+      
+      .campus-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+      }
+      
+      /* Call to Action */
+      .cta-section {
+        background: linear-gradient(135deg, #8A2BE2 0%, #A45EE5 100%); /* Changed from blue to purple gradient */
+        color: white;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      /* Footer */
+      footer {
+        background-color: #f5f5f7;
+        padding: 5rem 0 2rem;
+        position: relative;
+      }
+      
+      .footer-title {
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+      
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .footer-links li {
+        margin-bottom: 0.75rem;
+      }
+      
+      .footer-links a {
+        color: var(--medium-gray);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+      
+      .footer-links a:hover {
+        color: var(--primary);
+        transform: translateX(5px);
+      }
+      
+      .footer-bottom {
+        border-top: 1px solid var(--border-light);
+        padding-top: 1.5rem;
+        margin-top: 3rem;
+        color: var(--medium-gray);
+        text-align: center;
+      }
+      
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      .animate-fade-in {
+        animation: fadeIn 1s ease forwards;
+      }
+      
+      .animate-scale-in {
+        animation: scaleIn 1s ease forwards;
+      }
+      
+      .animate-slide-in {
+        animation: slideInLeft 1s ease forwards;
+      }
+      
+      .delay-100 { animation-delay: 0.1s; }
+      .delay-200 { animation-delay: 0.2s; }
+      .delay-300 { animation-delay: 0.3s; }
+      .delay-400 { animation-delay: 0.4s; }
+      .delay-500 { animation-delay: 0.5s; }
+      
+      /* Responsive adjustments */
+      @media (max-width: 991.98px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        
+        .hero-section {
+          height: auto;
+          padding: 6rem 0;
+        }
+        
+        .stats-number {
+          font-size: 2rem;
+        }
+      }
+      
+      @media (max-width: 767.98px) {
+        .hero-title {
+          font-size: 2rem;
+        }
+        
+        .hero-subtitle {
+          font-size: 1rem;
+        }
+        
+        .stats-card, .feature-card, .testimonial-card, .announcement-card {
+          margin-bottom: 1.5rem;
+        }
+        
+        .section-title h2 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-transparent fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="#">CampusRise</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="home.html">Home 🏠</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="events.html">Events 📅</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="alerts.html">Alerts 🔔</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="upload memory.html">Upload Memory 📤</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="safe space.html">Safe Space 🛡️</a>
+            </li>
+          </ul>
+          <div class="ms-lg-3">
+            <a href="signup.html" class="btn btn-light">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div id="hero-shapes"></div>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="animate-fade-in">
+              <h1 class="hero-title">Welcome to <span style="color: #FFCC00;">Campus</span>Rise</h1>
+              <p class="hero-subtitle animate-fade-in delay-200">Your all-in-one campus management portal for students, faculty, and staff. Experience the future of university digital infrastructure.</p>
+              <div class="d-flex flex-wrap gap-3 animate-fade-in delay-300">
+                <a href="#" class="btn btn-light">Get Started</a>
+                <a href="#" class="btn btn-outline-light">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 mt-5 mt-lg-0">
+            <div class="glass-card animate-scale-in delay-400">
+              <h3 class="mb-4 text-dark">Quick Access</h3>
+              <div>
+                <a href="class schedule.html" class="quick-access-link">
+                  <i class="fas fa-calendar-alt"></i>
+                  <span>Class Schedule</span>
+                </a>
+                <a href="course registration.html" class="quick-access-link">
+                  <i class="fas fa-book-open"></i>
+                  <span>Course Registration</span>
+                </a>
+                <a href="announcements.html" class="quick-access-link">
+                  <i class="fas fa-bell"></i>
+                  <span>Announcements</span>
+                </a>
+                <a href="grades.html" class="quick-access-link">
+                  <i class="fas fa-chart-line"></i>
+                  <span>Grades & Performance</span>
+                </a>
+                <a href="community.html" class="quick-access-link">
+                  <i class="fas fa-users"></i>
+                  <span>Student Community</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-5" id="stats-section">
+      <div class="container py-5">
+        <div class="row g-4 justify-content-center">
+          <div class="col-6 col-md-3">
+            <div class="stats-card animate-fade-in">
+              <div class="stats-icon students-icon">
+                <i class="fas fa-user-graduate"></i>
+              </div>
+              <div class="stats-number stats-students" id="students-count">0</div>
+              <div class="stats-label">Students</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stats-card animate-fade-in delay-100">
+              <div class="stats-icon courses-icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="stats-number stats-courses" id="courses-count">0</div>
+              <div class="stats-label">Courses</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stats-card animate-fade-in delay-200">
+              <div class="stats-icon events-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="stats-number stats-events" id="events-count">0</div>
+              <div class="stats-label">Annual Events</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stats-card animate-fade-in delay-300">
+              <div class="stats-icon faculty-icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+              </div>
+              <div class="stats-number stats-faculty" id="faculties-count">0</div>
+              <div class="stats-label">Faculty Members</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5 bg-light">
+      <div class="container py-5">
+        <div class="section-title">
+          <h2>Powerful Features</h2>
+          <p>Discover the tools that make CampusRise the leading campus management solution for modern educational institutions.</p>
+        </div>
+        
+        <div class="row g-4">
+          <!-- Feature 1 -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card">
+              <div class="feature-icon" style="background-color: rgba(138, 43, 226, 0.1); color: var(--primary);">
+                <i class="fas fa-book-open"></i>
+              </div>
+              <h3 class="feature-title">Course Management</h3>
+              <p class="feature-text">Register for courses, view schedules, and manage your academic calendar all in one place.</p>
+              <a href="#" class="feature-link">
+                Learn more <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Feature 2 -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card">
+              <div class="feature-icon" style="background-color: rgba(94, 92, 230, 0.1); color: var(--secondary);">
+                <i class="fas fa-bullhorn"></i>
+              </div>
+              <h3 class="feature-title">Campus Events</h3>
+              <p class="feature-text">Stay updated with campus events, workshops, and activities happening around you.</p>
+              <a href="#" class="feature-link" style="color: var(--secondary);">
+                Learn more <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Feature 3 -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card">
+              <div class="feature-icon" style="background-color: rgba(52, 199, 89, 0.1); color: var(--success);">
+                <i class="fas fa-comments"></i>
+              </div>
+              <h3 class="feature-title">Communication Tools</h3>
+              <p class="feature-text">Connect with professors, classmates and staff through our integrated messaging system.</p>
+              <a href="#" class="feature-link" style="color: var(--success);">
+                Learn more <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Feature 4 -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card">
+              <div class="feature-icon" style="background-color: rgba(255, 159, 10, 0.1); color: var(--warning);">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <h3 class="feature-title">Progress Tracking</h3>
+              <p class="feature-text">Monitor your academic progress, grades, and performance in real-time with detailed analytics.</p>
+              <a href="#" class="feature-link" style="color: var(--warning);">
+                Learn more <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Feature 5 -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card">
+              <div class="feature-icon" style="background-color: rgba(255, 45, 85, 0.1); color: #FF2D55;">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <h3 class="feature-title">Document Management</h3>
+              <p class="feature-text">Store, access, and share important academic documents securely from anywhere.</p>
+              <a href="#" class="feature-link" style="color: #FF2D55;">
+                Learn more <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Feature 6 -->
+          <div class="col-md-4 mb-4">
+            <div class="feature-card">
+              <div class="feature-icon" style="background-color: rgba(90, 200, 250, 0.1); color: var(--info);">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <h3 class="feature-title">Mobile Access</h3>
+              <p class="feature-text">Access all features on-the-go with our responsive mobile interface designed for modern students.</p>
+              <a href="#" class="feature-link" style="color: var(--info);">
+                Learn more <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-5">
+      <div class="container py-5">
+        <div class="section-title">
+          <h2>What Our Users Say</h2>
+          <p>Hear from students, faculty and staff who are already using CampusRise</p>
+        </div>
+        
+        <div class="row g-4">
+          <!-- Testimonial 1 -->
+          <div class="col-lg-4 mb-4">
+            <div class="testimonial-card">
+              <div class="d-flex align-items-center">
+                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson" class="testimonial-avatar">
+                <div>
+                  <h5 class="testimonial-name">Sarah Johnson</h5>
+                  <p class="testimonial-role">Computer Science Student</p>
+                </div>
+              </div>
+              <p class="testimonial-text">
+                CampusRise has transformed my university experience. The course registration is seamless and the event notifications keep me engaged with campus life!
+              </p>
+            </div>
+          </div>
+          
+          <!-- Testimonial 2 -->
+          <div class="col-lg-4 mb-4">
+            <div class="testimonial-card">
+              <div class="d-flex align-items-center">
+                <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="David Chen" class="testimonial-avatar">
+                <div>
+                  <h5 class="testimonial-name">David Chen</h5>
+                  <p class="testimonial-role">Faculty of Business</p>
+                </div>
+              </div>
+              <p class="testimonial-text">
+                As a professor, I find CampusRise intuitive and efficient. It has simplified communication with my students and streamlined administrative tasks.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Testimonial 3 -->
+          <div class="col-lg-4 mb-4">
+            <div class="testimonial-card">
+              <div class="d-flex align-items-center">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Aisha Patel" class="testimonial-avatar">
+                <div>
+                  <h5 class="testimonial-name">Aisha Patel</h5>
+                  <p class="testimonial-role">Student Council President</p>
+                </div>
+              </div>
+              <p class="testimonial-text">
+                The platform has revolutionized how we organize and promote campus events. Attendance has increased by 40% since we started using CampusRise!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section class="py-5 bg-light">
+      <div class="container py-5">
+        <div class="section-title">
+          <h2>Latest Announcements</h2>
+          <p>Stay updated with the latest news and events happening on campus</p>
+        </div>
+        
+        <div class="row g-4">
+          <!-- Announcement 1 -->
+          <div class="col-md-4 mb-4">
+            <div class="announcement-card announcement-academic">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-primary">Academic</span>
+                <span class="announcement-date">June 15, 2023</span>
+              </div>
+              <h3 class="announcement-title">Fall Registration Opens</h3>
+              <p class="announcement-text">
+                Registration for Fall 2023 semester opens next week. Be sure to check your eligibility and course prerequisites.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Announcement 2 -->
+          <div class="col-md-4 mb-4">
+            <div class="announcement-card announcement-facilities">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge" style="background-color: var(--secondary);">Facilities</span>
+                <span class="announcement-date">June 10, 2023</span>
+              </div>
+              <h3 class="announcement-title">New Library Hours</h3>
+              <p class="announcement-text">
+                The main campus library will now be open 24/7 during finals week to accommodate student study needs.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Announcement 3 -->
+          <div class="col-md-4 mb-4">
+            <div class="announcement-card announcement-events">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-success">Events</span>
+                <span class="announcement-date">June 5, 2023</span>
+              </div>
+              <h3 class="announcement-title">Campus Career Fair</h3>
+              <p class="announcement-text">
+                Over 50 employers will be on campus for the annual career fair. Bring your resume and professional attire.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Campus Image Section -->
+    <section class="py-5">
+      <div class="container py-5">
+        <div class="section-title">
+          <h2>Our Campus</h2>
+          <p>Experience our beautiful campus facilities and modern learning environment</p>
+        </div>
+        
+        <a href="#" class="campus-image-container">
+          <img src="https://static.wixstatic.com/media/6685d7_ecd8a3be7abd4d6d84cd116a89ea21b8~mv2.jpg/v1/fill/w_560,h_316,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/MRU_BuildingPhoto.jpg" 
+              alt="Campus Building" class="campus-image">
+        </a>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+      <div class="container py-3 text-center">
+        <h2 class="mb-4 fw-bold display-5">Ready to Get Started?</h2>
+        <p class="lead mb-5">Join thousands of students already using CampusRise to enhance their academic journey</p>
+        <a href="signup.html" class="btn btn-light btn-lg px-5">Sign Up Now</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-3 col-md-6">
+            <h5 class="footer-title">CampusRise</h5>
+            <p class="text-muted">Your comprehensive campus management solution for the modern educational institution.</p>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h5 class="footer-title">Quick Links</h5>
+            <ul class="footer-links">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Features</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Testimonials</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h5 class="footer-title">Resources</h5>
+            <ul class="footer-links">
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h5 class="footer-title">Contact Us</h5>
+            <address class="text-muted">
+              123 University Drive<br>
+              Mount Royal, CA 12345<br>
+              <a href="mailto:info@campusrise.com">info@campusrise.com</a>
+            </address>
+            <div class="mt-4 d-flex gap-3">
+              <a href="#" class="text-muted"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-muted"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-muted"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-muted"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; <span id="current-year">2023</span> CampusRise. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+      // Set current year in the footer
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      
+      // Change navbar style on scroll
+      window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('mainNav');
+        if (window.scrollY > 50) {
+          navbar.classList.add('navbar-scrolled');
+          navbar.classList.remove('navbar-transparent');
+        } else {
+          navbar.classList.add('navbar-transparent');
+          navbar.classList.remove('navbar-scrolled');
+        }
+      });
+      
+      // Create hero background shapes
+      function createHeroShapes() {
+        const heroShapes = document.getElementById('hero-shapes');
+        const shapeCount = 5;
+        
+        if (!heroShapes) return;
+        
+        for (let i = 0; i < shapeCount; i++) {
+          const shape = document.createElement('div');
+          shape.classList.add('hero-shape');
+          
+          // Random size, position and animation
+          const size = Math.random() * 300 + 50;
+          shape.style.width = `${size}px`;
+          shape.style.height = `${size}px`;
+          shape.style.top = `${Math.random() * 100}%`;
+          shape.style.left = `${Math.random() * 100}%`;
+          
+          // Animation with CSS
+          shape.style.animation = `fadeIn ${Math.random() * 10 + 5}s infinite alternate ease-in-out`;
+          shape.style.animationDelay = `${Math.random() * 5}s`;
+          
+          heroShapes.appendChild(shape);
+        }
+      }
+      
+      // Statistics counter animation
+      function animateCounter(elementId, targetValue) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        let startValue = 0;
+        let duration = 2000; // 2 seconds
+        let startTime = null;
+        
+        function updateCounter(timestamp) {
+          if (!startTime) startTime = timestamp;
+          
+          const progress = Math.min((timestamp - startTime) / duration, 1);
+          const value = Math.floor(progress * (targetValue - startValue) + startValue);
+          element.textContent = value.toLocaleString();
+          
+          if (progress < 1) {
+            window.requestAnimationFrame(updateCounter);
+          } else {
+            element.textContent = targetValue.toLocaleString();
+          }
+        }
+        
+        window.requestAnimationFrame(updateCounter);
+      }
+      
+      // Intersection Observer for animations
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // If it's a counter element
+            if (entry.target.id === 'stats-section') {
+              animateCounter('students-count', 12500);
+              animateCounter('courses-count', 350);
+              animateCounter('events-count', 120);
+              animateCounter('faculties-count', 8);
+              observer.unobserve(entry.target);
+            }
+          }
+        });
+      }, observerOptions);
+      
+      // Run when DOM is fully loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        createHeroShapes();
+        
+        // Set initial navbar state
+        const navbar = document.getElementById('mainNav');
+        if (window.scrollY > 50) {
+          navbar.classList.add('navbar-scrolled');
+        } else {
+          navbar.classList.add('navbar-transparent');
+        }
+        
+        // Observe stats section for animation
+        const statsSection = document.getElementById('stats-section');
+        if (statsSection) {
+          observer.observe(statsSection);
+        }
+      });
+    </script>
+  </body>
+  </html>

@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MRU CampusRise Student Registration Portal">
+    <title>MRU CampusRise - Student Registration</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Password Strength Meter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --mru-blue: #0056b3;
+            --mru-blue-dark: #003d7a;
+            --mru-red: #d62d20;
+            --mru-gold: #ffc72c;
+            --mru-dark: #1a2e4a;
+            --mru-light: #f8f9fa;
+            --mru-success: #28a745;
+            --mru-warning: #ffc107;
+            --mru-danger: #dc3545;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            color: #212529;
+        }
+        
+        .registration-card {
+            max-width: 900px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .registration-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .registration-header {
+            background: linear-gradient(135deg, var(--mru-blue), var(--mru-dark));
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .registration-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 15s linear infinite;
+        }
+        
+        .registration-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            height: 70px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .registration-body {
+            background-color: white;
+            padding: 2.5rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--mru-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--mru-blue);
+            box-shadow: 0 0 0 0.25rem rgba(0, 86, 179, 0.15);
+        }
+        
+        .input-group-text {
+            background-color: var(--mru-light);
+            border-radius: 8px 0 0 8px !important;
+        }
+        
+        .btn-register {
+            background: linear-gradient(135deg, var(--mru-blue), var(--mru-dark));
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 86, 179, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 86, 179, 0.3);
+            background: linear-gradient(135deg, var(--mru-blue-dark), var(--mru-dark));
+        }
+        
+        .btn-register:active {
+            transform: translateY(0);
+        }
+        
+        .btn-register::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            transition: all 0.3s;
+        }
+        
+        .btn-register:hover::after {
+            left: 100%;
+        }
+        
+        .password-toggle {
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            color: var(--mru-dark);
+            transition: all 0.3s ease;
+        }
+        
+        .password-toggle:hover {
+            color: var(--mru-blue);
+        }
+        
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--mru-danger), var(--mru-warning), var(--mru-success));
+            transition: width 0.5s ease;
+        }
+        
+        .password-strength {
+            display: flex;
+            align-items: center;
+            margin-top: -10px;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .strength-indicator {
+            display: flex;
+            gap: 5px;
+            margin-left: 10px;
+        }
+        
+        .strength-bar {
+            width: 30px;
+            height: 5px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            transition: background-color 0.3s ease;
+        }
+        
+        .strength-weak .strength-bar:nth-child(1) {
+            background-color: var(--mru-danger);
+        }
+        
+        .strength-medium .strength-bar:nth-child(-n+2) {
+            background-color: var(--mru-warning);
+        }
+        
+        .strength-strong .strength-bar {
+            background-color: var(--mru-success);
+        }
+        
+        .strength-very-strong .strength-bar {
+            background-color: var(--mru-success);
+        }
+        
+        .strength-text {
+            font-weight: 500;
+        }
+        
+        .strength-weak .strength-text {
+            color: var(--mru-danger);
+        }
+        
+        .strength-medium .strength-text {
+            color: var(--mru-warning);
+        }
+        
+        .strength-strong .strength-text, .strength-very-strong .strength-text {
+            color: var(--mru-success);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--mru-dark);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .footer-links a:hover {
+            color: var(--mru-blue);
+            text-decoration: underline;
+        }
+        
+        /* CAPTCHA styles */
+        .captcha-container {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #dee2e6;
+        }
+        
+        .captcha-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, #333, #666);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            user-select: none;
+            padding: 0.5rem;
+        }
+        
+        .captcha-refresh {
+            background: none;
+            border: none;
+            color: var(--mru-blue);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .captcha-refresh:hover {
+            transform: rotate(90deg);
+        }
+        
+        /* Loading spinner */
+        .spinner-border {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+        
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+        
+        /* Tooltip */
+        .tooltip-inner {
+            max-width: 300px;
+            padding: 0.5rem 1rem;
+        }
+        
+        /* Session timeout warning */
+        .session-timeout-modal .modal-content {
+            border: 3px solid var(--mru-warning);
+        }
+        
+        .session-timeout-modal .modal-header {
+            background-color: var(--mru-warning);
+            color: #000;
+        }
+        
+        /* Animation classes */
+        .shake {
+            animation: shake 0.5s;
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Accessibility focus styles */
+        a:focus, button:focus, input:focus, select:focus, textarea:focus {
+            outline: 3px solid rgba(0, 86, 179, 0.5);
+            outline-offset: 2px;
+        }
+        
+        /* Keyframe animations */
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .registration-card {
+                border-radius: 0;
+            }
+            
+            .registration-body {
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                height: 50px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .registration-header {
+                padding: 1.5rem;
+            }
+            
+            .registration-body {
+                padding: 1rem;
+            }
+            
+            .btn-register {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notifications Container -->
+    <div class="toast-container"></div>
+    
+    <!-- Session Timeout Warning Modal -->
+    <div class="modal fade session-timeout-modal" id="sessionTimeoutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-hourglass-end me-2"></i> Session About to Expire</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Your session will expire in <span id="timeoutCountdown">2:00</span> due to inactivity.</p>
+                    <p>Do you want to continue your session?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="logoutBtn">Log Out</button>
+                    <button type="button" class="btn btn-warning" id="continueSessionBtn">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card registration-card">
+                    <div class="registration-header">
+                        <div class="registration-header-content">
+                            <div class="logo-container">
+                                <img src="https://via.placeholder.com/70x70?text=MRU" alt="MRU Logo" class="logo">
+                            </div>
+                            <h2 class="mb-2">Join CampusRise</h2>
+                            <p class="mb-0">Your gateway to the MRU student community</p>
+                        </div>
+                    </div>
+                    
+                    <div class="registration-body">
+                        <form id="registrationForm" novalidate>
+                            <!-- Progress Bar -->
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="formProgress"></div>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" required
+                                           data-bs-toggle="tooltip" data-bs-placement="top" 
+                                           title="Enter your legal first name as per university records">
+                                    <div class="invalid-feedback">Please enter your first name</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" required
+                                           data-bs-toggle="tooltip" data-bs-placement="top" 
+                                           title="Enter your legal last name as per university records">
+                                    <div class="invalid-feedback">Please enter your last name</div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="rollNumber" class="form-label">MRU Roll Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">MRU</span>
+                                        <input type="text" class="form-control" id="rollNumber" placeholder="e.g. 2023BCS001" required
+                                               pattern="20\d{2}[A-Z]{2,3}\d{3}" 
+                                               data-bs-toggle="tooltip" data-bs-placement="top" 
+                                               title="Format: YYYY[CourseCode]XXX (e.g. 2023BCS001)">
+                                    </div>
+                                    <small class="text-muted">Format: YYYY[CourseCode]XXX (e.g. 2023BCS001)</small>
+                                    <div class="invalid-feedback">Please enter a valid MRU roll number in the format YYYY[CourseCode]XXX</div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="email" class="form-label">MRU Email Address</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="emailUsername" placeholder="username" required
+                                               pattern="[a-zA-Z0-9.]+" 
+                                               data-bs-toggle="tooltip" data-bs-placement="top" 
+                                               title="Enter your MRU email username (without @mru.edu.in)">
+                                        <span class="input-group-text">@mru.edu.in</span>
+                                    </div>
+                                    <div class="invalid-feedback">Please enter a valid email username (only letters, numbers and dots allowed)</div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Mobile Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+91</span>
+                                        <input type="tel" class="form-control" id="phone" pattern="[0-9]{10}" required
+                                               data-bs-toggle="tooltip" data-bs-placement="top" 
+                                               title="Enter your 10-digit mobile number for verification">
+                                    </div>
+                                    <div class="invalid-feedback">Please enter a valid 10-digit mobile number</div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="dob" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="dob" max="2005-12-31" required
+                                           data-bs-toggle="tooltip" data-bs-placement="top" 
+                                           title="You must be at least 18 years old to register">
+                                    <div class="invalid-feedback">Please select a valid date of birth (must be at least 18 years old)</div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="password" class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" required
+                                               minlength="8" 
+                                               data-bs-toggle="tooltip" data-bs-placement="top" 
+                                               title="Minimum 8 characters with at least one uppercase, one lowercase, one number and one special character">
+                                        <button class="btn btn-outline-secondary password-toggle" type="button" id="togglePassword"
+                                                aria-label="Toggle password visibility">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="password-strength">
+                                        <span>Strength:</span>
+                                        <span class="strength-text ms-2" id="strengthText">None</span>
+                                        <div class="strength-indicator" id="strengthIndicator">
+                                            <div class="strength-bar"></div>
+                                            <div class="strength-bar"></div>
+                                            <div class="strength-bar"></div>
+                                            <div class="strength-bar"></div>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback">Password must be at least 8 characters with uppercase, lowercase, number and special character</div>
+                                    <div class="password-requirements mt-2">
+                                        <small class="text-muted">Requirements:</small>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="text-muted small"><i class="fas fa-check-circle text-success me-1 req-uppercase"></i> 1 uppercase letter</li>
+                                            <li class="text-muted small"><i class="fas fa-check-circle text-success me-1 req-lowercase"></i> 1 lowercase letter</li>
+                                            <li class="text-muted small"><i class="fas fa-check-circle text-success me-1 req-number"></i> 1 number</li>
+                                            <li class="text-muted small"><i class="fas fa-check-circle text-success me-1 req-special"></i> 1 special character</li>
+                                            <li class="text-muted small"><i class="fas fa-check-circle text-success me-1 req-length"></i> Minimum 8 characters</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control" id="confirmPassword" required
+                                           data-bs-toggle="tooltip" data-bs-placement="top" 
+                                           title="Re-enter your password for verification">
+                                    <div class="invalid-feedback" id="passwordMatchError">Passwords do not match</div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="course" class="form-label">Select Your Course</label>
+                                    <select class="form-select" id="course" required
+                                            data-bs-toggle="tooltip" data-bs-placement="top" 
+                                            title="Select your current course of study">
+                                        <option value="" selected disabled>Choose your course</option>
+                                        <option value="BCS">B.Tech Computer Science</option>
+                                        <option value="BAI">B.Tech Artificial Intelligence</option>
+                                        <option value="BDS">B.Tech Data Science</option>
+                                        <option value="BIT">B.Tech Information Technology</option>
+                                        <option value="BCE">B.Tech Computer Engineering</option>
+                                        <option value="BME">B.Tech Mechanical Engineering</option>
+                                        <option value="BEC">B.Tech Electronics & Communication</option>
+                                        <option value="MCA">MCA</option>
+                                        <option value="MCS">M.Tech Computer Science</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select your course</div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="semester" class="form-label">Current Semester</label>
+                                    <select class="form-select" id="semester" required
+                                            data-bs-toggle="tooltip" data-bs-placement="top" 
+                                            title="Select your current academic semester">
+                                        <option value="" selected disabled>Select semester</option>
+                                        <option value="1">Semester 1</option>
+                                        <option value="2">Semester 2</option>
+                                        <option value="3">Semester 3</option>
+                                        <option value="4">Semester 4</option>
+                                        <option value="5">Semester 5</option>
+                                        <option value="6">Semester 6</option>
+                                        <option value="7">Semester 7</option>
+                                        <option value="8">Semester 8</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select your semester</div>
+                                </div>
+                                
+                                <!-- CAPTCHA Section -->
+                                <div class="col-12">
+                                    <label class="form-label">Verify You're Human</label>
+                                    <div class="captcha-container">
+                                        <div class="captcha-text" id="captchaText"></div>
+                                        <button type="button" class="captcha-refresh" id="refreshCaptcha"
+                                                aria-label="Refresh CAPTCHA">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control mt-2" id="captchaInput" 
+                                           placeholder="Enter the text above" required>
+                                    <div class="invalid-feedback">Please enter the correct CAPTCHA text</div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="termsCheck" required
+                                               data-bs-toggle="tooltip" data-bs-placement="top" 
+                                               title="You must agree to the terms and conditions">
+                                        <label class="form-check-label" for="termsCheck">
+                                            I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a> and 
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
+                                        </label>
+                                        <div class="invalid-feedback">You must agree before submitting</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-primary btn-register w-100" id="submitBtn">
+                                        <span id="submitText"><i class="fas fa-user-plus me-2"></i> Create Account</span>
+                                        <span id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="footer-links">
+                            <a href="login.html"><i class="fas fa-sign-in-alt me-1"></i> Already have an account? Sign In</a>
+                            <a href="forgot-password.html"><i class="fas fa-key me-1"></i> Forgot Password?</a>
+                            <a href="help.html"><i class="fas fa-question-circle me-1"></i> Need Help?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="mb-3">MRU CampusRise Account Agreement</h6>
+                    <p>By creating an account on MRU CampusRise, you agree to the following terms:</p>
+                    <ol class="mb-4">
+                        <li class="mb-2">You must be a currently enrolled student at Manav Rachna University.</li>
+                        <li class="mb-2">You agree to provide accurate and complete information during registration.</li>
+                        <li class="mb-2">Your MRU email address will be used for official communications.</li>
+                        <li class="mb-2">You are responsible for maintaining the confidentiality of your account credentials.</li>
+                        <li class="mb-2">The university may send important notifications through this platform.</li>
+                        <li class="mb-2">Misuse of the platform may result in account suspension.</li>
+                        <li class="mb-2">You consent to the university's data collection and privacy policies.</li>
+                    </ol>
+                    <p>For full terms, please refer to the official university website.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="privacyModalLabel">Privacy Policy</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="mb-3">MRU CampusRise Privacy Policy</h6>
+                    <p>Manav Rachna University is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your personal information.</p>
+                    
+                    <h6 class="mt-4 mb-2">Information We Collect</h6>
+                    <ul class="mb-3">
+                        <li class="mb-2">Personal identification information (name, roll number, email, etc.)</li>
+                        <li class="mb-2">Academic information (course, semester)</li>
+                        <li class="mb-2">Usage data and interaction with the platform</li>
+                    </ul>
+                    
+                    <h6 class="mt-4 mb-2">How We Use Your Information</h6>
+                    <ul class="mb-3">
+                        <li class="mb-2">To provide and maintain our service</li>
+                        <li class="mb-2">To notify you about changes to our service</li>
+                        <li class="mb-2">To provide academic support and services</li>
+                        <li class="mb-2">To monitor the usage of our service</li>
+                        <li class="mb-2">To detect, prevent and address technical issues</li>
+                    </ul>
+                    
+                    <p class="mt-4">Your data will be protected in accordance with applicable laws and university policies.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Email Verification Modal -->
+    <div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="verificationModalLabel">Verify Your Email</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-4">
+                        <i class="fas fa-envelope fa-5x text-primary"></i>
+                    </div>
+                    <h4 class="mb-3">Verification Email Sent</h4>
+                    <p>We've sent a verification link to <strong id="userEmail"></strong>. Please click the link to verify your email address.</p>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle me-2"></i> Check your spam folder if you don't see the email.
+                    </div>
+                    <div class="mt-4">
+                        <button class="btn btn-outline-primary me-2" id="resendEmailBtn">
+                            <i class="fas fa-redo me-1"></i> Resend Email
+                        </button>
+                        <button class="btn btn-primary" id="openEmailBtn">
+                            <i class="fas fa-envelope-open me-1"></i> Open Email Client
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Registration Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">Registration Successful</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle fa-5x text-success"></i>
+                    </div>
+                    <h4 class="mb-3">Welcome to CampusRise!</h4>
+                    <p class="mb-4">Your account has been successfully created. A verification email has been sent to your MRU email address.</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i> Please verify your email within 24 hours to activate your account.
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">Continue to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Password toggle functionality
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            
+            togglePassword.addEventListener('click', function() {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                confirmPassword.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+                this.setAttribute('aria-label', type === 'password' ? 'Show password' : 'Hide password');
+            });
+            
+            // Password strength checker using zxcvbn
+            password.addEventListener('input', function() {
+                const result = zxcvbn(this.value);
+                const strengthText = document.getElementById('strengthText');
+                const strengthIndicator = document.getElementById('strengthIndicator');
+                
+                // Update strength text and color based on score
+                let strengthClass, strengthDisplay;
+                switch(result.score) {
+                    case 0:
+                    case 1:
+                        strengthClass = 'strength-weak';
+                        strengthDisplay = 'Weak';
+                        break;
+                    case 2:
+                        strengthClass = 'strength-medium';
+                        strengthDisplay = 'Medium';
+                        break;
+                    case 3:
+                        strengthClass = 'strength-strong';
+                        strengthDisplay = 'Strong';
+                        break;
+                    case 4:
+                        strengthClass = 'strength-very-strong';
+                        strengthDisplay = 'Very Strong';
+                        break;
+                    default:
+                        strengthClass = '';
+                        strengthDisplay = 'None';
+                }
+                
+                // Update text and color
+                strengthText.textContent = strengthDisplay;
+                strengthText.className = 'strength-text ' + strengthClass;
+                strengthIndicator.className = 'strength-indicator ' + strengthClass;
+                
+                // Update individual bars based on score
+                const bars = strengthIndicator.querySelectorAll('.strength-bar');
+                bars.forEach((bar, index) => {
+                    bar.style.backgroundColor = index <= result.score ? 
+                        (result.score <= 1 ? 'var(--mru-danger)' : 
+                         result.score <= 2 ? 'var(--mru-warning)' : 'var(--mru-success)') : '#e9ecef';
+                });
+                
+                // Update progress bar
+                const progressBar = document.getElementById('formProgress');
+                progressBar.style.width = (result.score * 25) + '%';
+                
+                // Update password requirements
+                updatePasswordRequirements(this.value);
+            });
+            
+            // Update password requirement indicators
+            function updatePasswordRequirements(password) {
+                const hasUpper = /[A-Z]/.test(password);
+                const hasLower = /[a-z]/.test(password);
+                const hasNumber = /[0-9]/.test(password);
+                const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+                const hasLength = password.length >= 8;
+                
+                document.querySelector('.req-uppercase').className = 
+                    `fas ${hasUpper ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'} me-1 req-uppercase`;
+                document.querySelector('.req-lowercase').className = 
+                    `fas ${hasLower ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'} me-1 req-lowercase`;
+                document.querySelector('.req-number').className = 
+                    `fas ${hasNumber ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'} me-1 req-number`;
+                document.querySelector('.req-special').className = 
+                    `fas ${hasSpecial ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'} me-1 req-special`;
+                document.querySelector('.req-length').className = 
+                    `fas ${hasLength ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'} me-1 req-length`;
+            }
+            
+            // CAPTCHA generation
+            function generateCaptcha() {
+                const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+                let captcha = '';
+                for (let i = 0; i < 6; i++) {
+                    captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                document.getElementById('captchaText').textContent = captcha;
+                return captcha;
+            }
+            
+            let currentCaptcha = generateCaptcha();
+            
+            document.getElementById('refreshCaptcha').addEventListener('click', function() {
+                currentCaptcha = generateCaptcha();
+                document.getElementById('captchaInput').value = '';
+            });
+            
+            // Form validation
+            const registrationForm = document.getElementById('registrationForm');
+            const passwordMatchError = document.getElementById('passwordMatchError');
+            
+            // Real-time validation for roll number
+            const rollNumber = document.getElementById('rollNumber');
+            rollNumber.addEventListener('input', function() {
+                const rollRegex = /^20\d{2}[A-Z]{2,3}\d{3}$/;
+                if (this.value && !rollRegex.test(this.value)) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+                updateProgress();
+            });
+            
+            // Real-time validation for email username
+            const emailUsername = document.getElementById('emailUsername');
+            emailUsername.addEventListener('input', function() {
+                const emailRegex = /^[a-zA-Z0-9.]+$/;
+                if (this.value && !emailRegex.test(this.value)) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+                updateProgress();
+            });
+            
+            // Real-time validation for phone number
+            const phone = document.getElementById('phone');
+            phone.addEventListener('input', function() {
+                const phoneRegex = /^[0-9]{10}$/;
+                if (this.value && !phoneRegex.test(this.value)) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+                updateProgress();
+            });
+            
+            // Real-time validation for password match
+            confirmPassword.addEventListener('input', function() {
+                if (password.value !== this.value) {
+                    this.classList.add('is-invalid');
+                    passwordMatchError.style.display = 'block';
+                } else {
+                    this.classList.remove('is-invalid');
+                    passwordMatchError.style.display = 'none';
+                }
+                updateProgress();
+            });
+            
+            // Validate date of birth (must be at least 18 years old)
+            const dob = document.getElementById('dob');
+            dob.addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                const minDate = new Date();
+                minDate.setFullYear(minDate.getFullYear() - 18);
+                
+                if (selectedDate > minDate) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+                updateProgress();
+            });
+            
+            // Form submission
+            registrationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Validate all fields
+                let isValid = true;
+                const fields = this.querySelectorAll('input, select');
+                const submitBtn = document.getElementById('submitBtn');
+                const submitText = document.getElementById('submitText');
+                const submitSpinner = document.getElementById('submitSpinner');
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                submitText.textContent = 'Processing...';
+                submitSpinner.classList.remove('d-none');
+                
+                // Validate each field
+                fields.forEach(field => {
+                    if (field.id === 'termsCheck') return; // handled separately
+                    
+                    if (!field.value || 
+                        (field.id === 'password' && field.value.length < 8) || 
+                        (field.id === 'confirmPassword' && field.value !== password.value) ||
+                        (field.id === 'captchaInput' && field.value !== currentCaptcha) ||
+                        (field.id === 'rollNumber' && !/^20\d{2}[A-Z]{2,3}\d{3}$/.test(field.value)) ||
+                        (field.id === 'emailUsername' && !/^[a-zA-Z0-9.]+$/.test(field.value)) ||
+                        (field.id === 'phone' && !/^[0-9]{10}$/.test(field.value)) ||
+                        (field.id === 'dob' && new Date(field.value) > new Date(new Date().setFullYear(new Date().getFullYear() - 18)))) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                        
+                        // Add shake animation to invalid fields
+                        field.classList.add('shake');
+                        setTimeout(() => field.classList.remove('shake'), 500);
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                // Check terms checkbox
+                const termsCheck = document.getElementById('termsCheck');
+                if (!termsCheck.checked) {
+                    termsCheck.classList.add('is-invalid');
+                    isValid = false;
+                    
+                    // Add shake animation
+                    termsCheck.classList.add('shake');
+                    setTimeout(() => termsCheck.classList.remove('shake'), 500);
+                } else {
+                    termsCheck.classList.remove('is-invalid');
+                }
+                
+                // If all validations pass, show success modal
+                if (isValid) {
+                    // Simulate API call delay
+                    setTimeout(() => {
+                        // Restore button state
+                        submitBtn.disabled = false;
+                        submitText.innerHTML = '<i class="fas fa-user-plus me-2"></i> Create Account';
+                        submitSpinner.classList.add('d-none');
+                        
+                        // Show verification modal first
+                        const userEmail = emailUsername.value + '@mru.edu.in';
+                        document.getElementById('userEmail').textContent = userEmail;
+                        const verificationModal = new bootstrap.Modal(document.getElementById('verificationModal'));
+                        verificationModal.show();
+                        
+                        // Then show success modal after verification
+                        document.getElementById('resendEmailBtn').addEventListener('click', function() {
+                            showToast('Verification email resent successfully!', 'success');
+                        });
+                        
+                        document.getElementById('openEmailBtn').addEventListener('click', function() {
+                            window.open('mailto:', '_blank');
+                        });
+                        
+                        // In a real application, you would submit the form data to the server here
+                        // For demo purposes, we're just showing the success modal
+                        setTimeout(() => {
+                            verificationModal.hide();
+                            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                            successModal.show();
+                            
+                            // Save form data to localStorage (simulating account creation)
+                            const formData = {
+                                firstName: document.getElementById('firstName').value,
+                                lastName: document.getElementById('lastName').value,
+                                email: userEmail,
+                                rollNumber: 'MRU' + document.getElementById('rollNumber').value,
+                                phone: '+91' + document.getElementById('phone').value,
+                                course: document.getElementById('course').value,
+                                semester: document.getElementById('semester').value
+                            };
+                            localStorage.setItem('mru_user_data', JSON.stringify(formData));
+                        }, 3000);
+                    }, 1500);
+                } else {
+                    // Restore button state if validation fails
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitText.innerHTML = '<i class="fas fa-user-plus me-2"></i> Create Account';
+                        submitSpinner.classList.add('d-none');
+                        
+                        // Show error toast
+                        showToast('Please correct the errors in the form', 'danger');
+                    }, 500);
+                }
+            });
+            
+            // Update progress bar as form is filled
+            const formFields = registrationForm.querySelectorAll('input, select');
+            formFields.forEach(field => {
+                field.addEventListener('input', updateProgress);
+                field.addEventListener('change', updateProgress);
+            });
+            
+            function updateProgress() {
+                let filledFields = 0;
+                formFields.forEach(field => {
+                    if (field.value && field.value.trim() !== '' && 
+                        field.id !== 'confirmPassword' && 
+                        !field.classList.contains('is-invalid')) {
+                        filledFields++;
+                    }
+                });
+                
+                const progress = Math.min(100, (filledFields / formFields.length) * 100);
+                document.getElementById('formProgress').style.width = progress + '%';
+            }
+            
+            // Show toast notification
+            function showToast(message, type = 'info') {
+                const toastContainer = document.querySelector('.toast-container');
+                const toastId = 'toast-' + Date.now();
+                const toast = document.createElement('div');
+                
+                toast.className = `toast show align-items-center text-white bg-${type} border-0`;
+                toast.setAttribute('role', 'alert');
+                toast.setAttribute('aria-live', 'assertive');
+                toast.setAttribute('aria-atomic', 'true');
+                toast.id = toastId;
+                
+                toast.innerHTML = `
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                `;
+                
+                toastContainer.appendChild(toast);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    const bsToast = bootstrap.Toast.getOrCreateInstance(document.getElementById(toastId));
+                    bsToast.hide();
+                    setTimeout(() => toast.remove(), 500);
+                }, 5000);
+            }
+            
+            // Session timeout functionality
+            let timeout;
+            const timeoutDuration = 10 * 60 * 1000; // 10 minutes in milliseconds
+            const warningDuration = 2 * 60 * 1000; // 2 minutes in milliseconds
+            
+            function startTimeoutTimer() {
+                // Clear existing timeout
+                clearTimeout(timeout);
+                
+                // Set new timeout
+                timeout = setTimeout(() => {
+                    // Show warning modal
+                    const sessionTimeoutModal = new bootstrap.Modal(document.getElementById('sessionTimeoutModal'));
+                    sessionTimeoutModal.show();
+                    
+                    // Start countdown
+                    let secondsLeft = 120; // 2 minutes
+                    const countdownElement = document.getElementById('timeoutCountdown');
+                    
+                    const countdownInterval = setInterval(() => {
+                        secondsLeft--;
+                        const minutes = Math.floor(secondsLeft / 60);
+                        const seconds = secondsLeft % 60;
+                        countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+                        
+                        if (secondsLeft <= 0) {
+                            clearInterval(countdownInterval);
+                            sessionTimeoutModal.hide();
+                            // In a real app, you would log the user out here
+                            showToast('Your session has expired. Please log in again.', 'warning');
+                        }
+                    }, 1000);
+                    
+                    // Continue session button
+                    document.getElementById('continueSessionBtn').addEventListener('click', () => {
+                        clearInterval(countdownInterval);
+                        sessionTimeoutModal.hide();
+                        startTimeoutTimer();
+                        showToast('Session extended', 'success');
+                    });
+                    
+                    // Logout button
+                    document.getElementById('logoutBtn').addEventListener('click', () => {
+                        clearInterval(countdownInterval);
+                        sessionTimeoutModal.hide();
+                        // In a real app, you would log the user out here
+                        showToast('You have been logged out', 'info');
+                    });
+                }, timeoutDuration - warningDuration);
+            }
+            
+            // Reset timer on user activity
+            ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(event => {
+                document.addEventListener(event, startTimeoutTimer);
+            });
+            
+            // Start initial timer
+            startTimeoutTimer();
+            
+            // Load saved form data if available
+            const savedData = localStorage.getItem('mru_form_data');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                for (const key in formData) {
+                    const field = document.getElementById(key);
+                    if (field) {
+                        field.value = formData[key];
+                    }
+                }
+                updateProgress();
+            }
+            
+            // Save form data periodically
+            setInterval(() => {
+                const formData = {};
+                formFields.forEach(field => {
+                    if (field.id) {
+                        formData[field.id] = field.value;
+                    }
+                });
+                localStorage.setItem('mru_form_data', JSON.stringify(formData));
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
