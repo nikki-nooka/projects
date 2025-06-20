@@ -1,0 +1,58 @@
+/* WelcomePage.css */
+
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('https://cdn.wallpapersafari.com/27/0/4IlThL.jpg'); /* Path to your background image */
+  background-size: cover;
+  background-position: center;
+}
+/* WelcomePage.css */
+
+.get-started-button {
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  background-color: #007bff; /* Blue button color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.get-started-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.content {
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #748f5b;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.5rem;
+  color: #f2f2f2;
+  margin-bottom: 30px;
+}
+
+.get-started-button {
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  background-color: #748f5b; /* Blue button color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.get-started-button:hover {
+  background-color: #a2b4c7; /* Darker blue on hover */
+}
